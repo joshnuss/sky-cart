@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  stripeId String
+  name String
+  packageDimensions Json?
+  images String[]
+  shippable Boolean?
+  unitLabel String?
+  url String?
+  cartItems CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([stripeId])
+}
+
+model Price {
+  id Int @id @default(autoincrement())
+  stripeId String
+  type String
+  currency String
+  nickname String?
+  recurring Json?
+  taxBehavior String
+  tiers Json[]
+  transformQuantity Json?
+  unitAmount Int?
+  unitAmountDecimal String?
+  customUnitAmount Json?
+  cartItems CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([stripeId])
+}
+
+enum CartStatus {
+  OPEN
+  PAID
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+  token String
+  status CartStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([token])
+}
+
+model CartItem {
+  id Int @id @default(autoincrement())
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
+  priceId Int
+  price Price @relation(fields: [priceId], references: [id])
+
+  currency String
+  quantity Int
+  subtotal Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
