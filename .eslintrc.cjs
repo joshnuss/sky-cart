@@ -1,6 +1,6 @@
 module.exports = {
 	root: true,
-	extends: ['eslint:recommended', 'prettier'],
+	extends: ['eslint:recommended', 'prettier', 'plugin:vitest-globals/recommended'],
 	plugins: ['svelte3'],
 	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
 	parserOptions: {
@@ -10,6 +10,7 @@ module.exports = {
 	env: {
 		browser: true,
 		es2017: true,
-		node: true
+		node: true,
+		"vitest-globals/env": true
 	}
 };

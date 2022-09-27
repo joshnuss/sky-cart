@@ -7,6 +7,7 @@ specifiers:
   eslint: ^8.16.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^4.0.0
+  eslint-plugin-vitest-globals: ^1.2.0
   prettier: ^2.6.2
   prettier-plugin-svelte: ^2.7.0
   svelte: ^3.44.0
@@ -22,6 +23,7 @@ devDependencies:
   eslint: 8.24.0
   eslint-config-prettier: 8.5.0_eslint@8.24.0
   eslint-plugin-svelte3: 4.0.0_snydkosur25h6rjxszquwacaua
+  eslint-plugin-vitest-globals: 1.2.0
   prettier: 2.7.1
   prettier-plugin-svelte: 2.7.1_nk6d2fkgcllkkdynqbuearcure
   svelte: 3.50.1
@@ -787,6 +789,10 @@ packages:
       eslint: 8.24.0
     dev: true
 
+  /eslint-config-sets/1.8.3:
+    resolution: {integrity: sha512-X9OtGgO3olmrUB42aWMIm9rO+ehz89dysyfWBITHq8N9hB/AxHuNkqHVNU3YLT53WpbRopVCEHIBhZ2i1dMFyw==}
+    dev: true
+
   /eslint-plugin-svelte3/4.0.0_snydkosur25h6rjxszquwacaua:
     resolution: {integrity: sha512-OIx9lgaNzD02+MDFNLw0GEUbuovNcglg+wnd/UY0fbZmlQSz7GlQiQ1f+yX0XvC07XPcDOnFcichqI3xCwp71g==}
     peerDependencies:
@@ -795,6 +801,12 @@ packages:
     dependencies:
       eslint: 8.24.0
       svelte: 3.50.1
+    dev: true
+
+  /eslint-plugin-vitest-globals/1.2.0:
+    resolution: {integrity: sha512-vINsci+UOvObny6vutsa0c9xzM0PfdKgtkhnH8lLSe4+gZPjhK9O4v26oSu5Svb1n8Rvug4iX2k6keuKBoRlOg==}
+    dependencies:
+      eslint-config-sets: 1.8.3
     dev: true
 
   /eslint-scope/7.1.1:
