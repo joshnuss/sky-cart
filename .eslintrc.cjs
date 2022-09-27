@@ -13,4 +13,4 @@ module.exports = {
     node: true,
     'vitest-globals/env': true
   }
-};
+}

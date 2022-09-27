@@ -1,6 +1,6 @@
-import { mergeConfig, defineConfig } from 'vite';
-import viteConfig from './vite.config';
-import path from 'path';
+import { mergeConfig, defineConfig } from 'vite'
+import viteConfig from './vite.config'
+import path from 'path'
 
 export default mergeConfig(
   viteConfig,
@@ -15,4 +15,4 @@ export default mergeConfig(
       }
     }
   })
-);
+)
