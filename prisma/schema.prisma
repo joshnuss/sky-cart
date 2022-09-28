@@ -19,6 +19,8 @@ model Product {
   shippable Boolean?
   unitLabel String?
   url String?
+
+  prices Price[]
   cartItems CartItem[]
 
   createdAt DateTime @default(now())
@@ -29,6 +31,10 @@ model Product {
 
 model Price {
   id Int @id @default(autoincrement())
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
   stripeId String
   type String
   currency String
