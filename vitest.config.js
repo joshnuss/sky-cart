@@ -11,7 +11,8 @@ export default mergeConfig(
     },
     resolve: {
       alias: {
-        $routes: path.resolve(__dirname, 'src/routes')
+        $routes: path.resolve(__dirname, 'src/routes'),
+        $test: path.resolve(__dirname, 'test')
       }
     }
   })
