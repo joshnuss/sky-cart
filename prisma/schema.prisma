@@ -63,6 +63,7 @@ model Cart {
   id Int @id @default(autoincrement())
   token String
   status CartStatus
+  total Int
 
   cartItems CartItem[]
 
