@@ -9,6 +9,7 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@prisma/client": "^4.3.1",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
