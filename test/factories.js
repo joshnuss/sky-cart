@@ -32,3 +32,18 @@ export async function createPrice(input = {}) {
     data: buildPrice(input)
   })
 }
+
+export function buildCart(input = {}) {
+  return {
+    token: faker.datatype.string(),
+    status: 'OPEN',
+    total: 0,
+    ...input
+  }
+}
+
+export async function createCart(input = {}) {
+  return await db.cart.create({
+    data: buildCart(input)
+  })
+}
