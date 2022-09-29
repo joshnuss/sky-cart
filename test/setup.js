@@ -3,4 +3,4 @@ import { truncateAll } from 'prisma-database-cleaner'
 
 installPolyfills()
 
-beforeEach(async () => { await truncateAll()})
+beforeEach(truncateAll)
