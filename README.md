@@ -12,7 +12,7 @@ Cloud-agnostic shopping cart using Stripe Checkout.
 - **Prisma**: Cart data is stored using [prisma](https://prisma.io). Prisma supports Postgres, MySQL, Mongo and [many more](https://www.prisma.io/docs/reference/database-reference/supported-databases).
 - **Vitest**: Fully tested with [vitest](https://vitest.dev).
 
-## API
+## Cart API
 
 ### Read cart
 
@@ -71,6 +71,26 @@ For a one-click checkout request a payment intent via `/cart/payment-intent`
 curl localhost/cart/payment-intent \
   --request=POST \
   --header 'x-cart-token: token' \
+```
+
+## Catalog API
+
+Provides access to a replicated copy of your Stripe products and prices. There is no throttling, so you can use databind it to your UI. It may use caching in a future version.
+
+### Retrieve all products
+
+Includes prices.
+
+```bash
+curl localhost/products
+```
+
+### Retrieve a single product
+
+Includes prices.
+
+```bash
+curl localhost/products/prod_1234
 ```
 
 ## Setup
