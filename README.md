@@ -14,6 +14,12 @@ Cloud-agnostic shopping cart using Stripe Checkout.
 
 ## Cart API
 
+### Create cart
+
+```bash
+curl localhost/cart --request=POST
+```
+
 ### Read cart
 
 ```bash
