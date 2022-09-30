@@ -17,7 +17,7 @@ Cloud-agnostic shopping cart using Stripe Checkout. Reference design for SvelteK
 ### Create cart
 
 ```bash
-curl localhost/cart --request=POST
+curl localhost/cart --request POST
 ```
 
 ### Read cart
@@ -38,7 +38,7 @@ curl localhost/cart \
 
 ```bash
 curl localhost/cart/price_xyz123 \
-  --request=PATCH \
+  --request PATCH \
   --header 'x-cart-token: token' \
   --data 'quantity=2'
 ```
@@ -47,7 +47,7 @@ curl localhost/cart/price_xyz123 \
 
 ```bash
 curl localhost/cart/price_xyz123 \
-  --request=DELETE \
+  --request DELETE \
   --header 'x-cart-token: token' \
 ```
 
@@ -55,7 +55,7 @@ curl localhost/cart/price_xyz123 \
 
 ```bash
 curl localhost/cart \
-  --request=DELETE \
+  --request DELETE \
   --header 'x-cart-token: token' \
 ```
 
@@ -65,7 +65,7 @@ To create a checkout session, post to `/cart/checkout`.
 
 ```bash
 curl localhost/cart/checkout \
-  --request=POST \
+  --request POST \
   --header 'x-cart-token: token' \
 ```
 
