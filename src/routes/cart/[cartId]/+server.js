@@ -2,8 +2,14 @@ import { error } from '@sveltejs/kit'
 import serialize from '$lib/serializers/cart'
 import * as service from '$lib/services/cart'
 
-export const GET = authorize(cart => {
+export const GET = authorize(async cart => {
   return serialize(cart)
+})
+
+export const DELETE = authorize(async cart => {
+  const updated = await service.clear(cart)
+
+  return serialize(updated)
 })
 
 function authorize(callback) {
@@ -15,6 +21,6 @@ function authorize(callback) {
       throw error(401)
     }
 
-    return callback(cart)
+    return await callback(cart)
   }
 }
