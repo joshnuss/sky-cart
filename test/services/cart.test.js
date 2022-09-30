@@ -68,7 +68,11 @@ describe('add', () => {
   test('uses price when it exists', async () => {
     const cart = await createCart()
     const product = await createProduct()
-    const price = await createPrice({ stripeId: 'price_1234', product: { connect: { id: product.id } }, unitAmount: 1000 })
+    const price = await createPrice({
+      stripeId: 'price_1234',
+      product: { connect: { id: product.id } },
+      unitAmount: 1000
+    })
     const result = await add(cart, 'price_1234', 2)
 
     expect(result.success).toBeTruthy()
@@ -99,7 +103,7 @@ describe('add', () => {
     const result = await add(cart, 'prod_1234', -1)
 
     expect(result.success).toBeFalsy()
-    expect(result.errors).toMatchObject({ quantity: { invalid: true }})
+    expect(result.errors).toMatchObject({ quantity: { invalid: true } })
   })
 
   test('returns error when product is not found', async () => {
@@ -107,7 +111,7 @@ describe('add', () => {
     const result = await add(cart, 'prod_1234', 1)
 
     expect(result.success).toBeFalsy()
-    expect(result.errors).toMatchObject({ product: { missing: true }})
+    expect(result.errors).toMatchObject({ product: { missing: true } })
   })
 
   test('returns error when price is not found', async () => {
@@ -115,6 +119,6 @@ describe('add', () => {
     const result = await add(cart, 'price_1234', 1)
 
     expect(result.success).toBeFalsy()
-    expect(result.errors).toMatchObject({price: { missing: true }})
+    expect(result.errors).toMatchObject({ price: { missing: true } })
   })
 })

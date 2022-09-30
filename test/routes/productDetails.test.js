@@ -12,7 +12,7 @@ describe('GET /products/:stripeId', () => {
     const response = await GET({ params })
 
     expect(response.status).toBe(200)
-    expect(await response.json()).toContain({ id: 1})
+    expect(await response.json()).toContain({ id: 1 })
     expect(get).toHaveBeenCalled()
   })
 

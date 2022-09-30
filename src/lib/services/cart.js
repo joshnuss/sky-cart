@@ -25,8 +25,9 @@ export async function add(cart, stripeId, quantity = 1) {
       return fail({ product: { missing: true } })
     }
 
-    price = product ? await db.price.findFirst({ where: { productId: product.id, default: true } }) : null
-
+    price = product
+      ? await db.price.findFirst({ where: { productId: product.id, default: true } })
+      : null
   } else if (type == 'price') {
     price = await db.price.findUnique({ where: { stripeId }, include: { product: true } })
 
@@ -42,7 +43,7 @@ export async function add(cart, stripeId, quantity = 1) {
     updateCart(cart, quantity * price.unitAmount)
   ])
 
-  cart = await get({id: cart.id})
+  cart = await get({ id: cart.id })
 
   return {
     success: true,
@@ -63,11 +64,11 @@ function upsertItem(cart, product, price, quantity) {
       productId: product.id,
       priceId: price.id,
       quantity,
-      subtotal: quantity * price.unitAmount,
+      subtotal: quantity * price.unitAmount
     },
     update: {
       quantity: { increment: quantity },
-      subtotal: { increment: quantity * price.unitAmount },
+      subtotal: { increment: quantity * price.unitAmount }
     }
   })
 }
