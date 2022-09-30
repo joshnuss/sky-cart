@@ -50,3 +50,15 @@ export async function createCart(input = {}) {
     data: buildCart(input)
   })
 }
+
+export function buildCartItem(input = {}) {
+  return {
+    ...input
+  }
+}
+
+export async function createCartItem(input = {}) {
+  return await db.cartItem.create({
+    data: buildCartItem(input)
+  })
+}
