@@ -96,7 +96,7 @@ curl localhost/products/prod_1234
 2. Copy config `cp config.example.js config.js`
 3. Configure settings in `config.js`
 4. Setup webooks
-5. Sync product & price data by running `pnpm catalog:sync`
+5. Sync product & price data by running `pnpm stripe:catalog:sync`
 
 ## License
 
