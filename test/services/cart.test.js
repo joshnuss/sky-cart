@@ -1,4 +1,4 @@
-import { get, add } from '$lib/services/cart'
+import { get, add, clear } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
@@ -120,5 +120,31 @@ describe('add', () => {
 
     expect(result.success).toBeFalsy()
     expect(result.errors).toMatchObject({ price: { missing: true } })
+  })
+})
+
+describe('clear', () => {
+  test('removes items', async () => {
+    let cart = await createCart({ total: 1000 })
+    const product = await createProduct({ stripeId: 'prod_12345' })
+    const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
+    await createCartItem({
+      cart: {
+        connect: { id: cart.id }
+      },
+      product: {
+        connect: { id: product.id }
+      },
+      price: {
+        connect: { id: price.id }
+      },
+      quantity: 1,
+      subtotal: 1000
+    })
+
+    cart = await clear(cart)
+
+    expect(cart.total).toBe(0)
+    expect(cart.cartItems).toHaveLength(0)
   })
 })

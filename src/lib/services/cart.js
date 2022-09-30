@@ -9,6 +9,28 @@ export function get(where) {
   })
 }
 
+export async function clear(cart) {
+  await db.$transaction([
+    clearCart(cart),
+    removeCartItems(cart)
+  ])
+
+  return await get({ id: cart.id })
+}
+
+function clearCart(cart) {
+  return db.cart.update({
+    data: { total: 0 },
+    where: { id: cart.id }
+  })
+}
+
+function removeCartItems(cart) {
+  return db.cartItem.deleteMany({
+    where: { id: cart.id }
+  })
+}
+
 export async function add(cart, stripeId, quantity = 1) {
   if (quantity <= 0) {
     return fail({ quantity: { invalid: true } })
