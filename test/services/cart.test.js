@@ -1,8 +1,8 @@
-import { get, upsert, remove, clear } from '$lib/services/cart'
+import { get, create, upsert, remove, clear } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
-  test('returns cart when exists', async () => {
+  test('when exists, returns cart', async () => {
     const cart = createCart()
     const result = get({ token: cart.token })
 
@@ -10,10 +10,23 @@ describe('get', () => {
     expect(result.id).toBe(cart.id)
   })
 
-  test('returns null when not found', async () => {
+  test('when not found, returns null', async () => {
     const result = await get({ token: 'unknown' })
 
     expect(result).toBeNull()
+  })
+})
+
+describe('create', () => {
+  test('creates and returns cart', async () => {
+    const cart = await create()
+
+    expect(cart).not.toBeNull()
+    expect(cart.id).not.toBeNull()
+    expect(cart.publicId).toMatch(/^cart_/)
+    expect(cart.currency).toBe('usd')
+    expect(cart.status).toBe('OPEN')
+    expect(cart.total).toBe(0)
   })
 })
 

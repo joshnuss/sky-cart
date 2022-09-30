@@ -1,10 +1,24 @@
+import { nanoid } from 'nanoid'
 import { db } from './db'
+import config from '$config'
 
 export function get(where) {
   return db.cart.findUnique({
     where,
     include: {
       cartItems: true
+    }
+  })
+}
+
+export async function create() {
+  return db.cart.create({
+    data: {
+      currency: config.currency,
+      publicId: `cart_${nanoid(20)}`,
+      token: nanoid(40),
+      status: 'OPEN',
+      total: 0
     }
   })
 }
