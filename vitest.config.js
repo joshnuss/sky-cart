@@ -6,6 +6,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      threads: false,
       globals: true,
       setupFiles: './test/setup.js'
     },
