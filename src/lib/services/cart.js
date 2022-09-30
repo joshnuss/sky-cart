@@ -15,7 +15,7 @@ export async function clear(cart) {
   return await get({ id: cart.id })
 }
 
-export async function add(cart, stripeId, quantity = 1) {
+export async function upsert(cart, stripeId, quantity = 1) {
   if (quantity <= 0) {
     return fail({ quantity: { invalid: true } })
   }

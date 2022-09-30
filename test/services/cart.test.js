@@ -1,4 +1,4 @@
-import { get, add, remove, clear } from '$lib/services/cart'
+import { get, upsert, remove, clear } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
@@ -17,7 +17,7 @@ describe('get', () => {
   })
 })
 
-describe('add', () => {
+describe('upsert', () => {
   test('when line item exists, it updates existing line item', async () => {
     const cart = await createCart({ total: 1000 })
     const product = await createProduct({ stripeId: 'prod_12345' })
@@ -35,7 +35,7 @@ describe('add', () => {
       quantity: 1,
       subtotal: 1000
     })
-    const result = await add(cart, 'prod_12345', 2)
+    const result = await upsert(cart, 'prod_12345', 2)
 
     expect(result.success).toBeTruthy()
     expect(result.cart.cartItems).toHaveLength(1)
@@ -52,7 +52,7 @@ describe('add', () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
-    const result = await add(cart, 'prod_1234', 2)
+    const result = await upsert(cart, 'prod_1234', 2)
 
     expect(result.success).toBeTruthy()
     expect(result.cart.cartItems).toHaveLength(1)
@@ -73,7 +73,7 @@ describe('add', () => {
       product: { connect: { id: product.id } },
       unitAmount: 1000
     })
-    const result = await add(cart, 'price_1234', 2)
+    const result = await upsert(cart, 'price_1234', 2)
 
     expect(result.success).toBeTruthy()
     expect(result.cart.cartItems).toHaveLength(1)
@@ -90,7 +90,7 @@ describe('add', () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
-    const result = await add(cart, 'prod_1234', 0)
+    const result = await upsert(cart, 'prod_1234', 0)
 
     expect(result.success).toBeFalsy()
     expect(result.errors.quantity).toContain({ invalid: true })
@@ -100,7 +100,7 @@ describe('add', () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
-    const result = await add(cart, 'prod_1234', -1)
+    const result = await upsert(cart, 'prod_1234', -1)
 
     expect(result.success).toBeFalsy()
     expect(result.errors).toMatchObject({ quantity: { invalid: true } })
@@ -108,7 +108,7 @@ describe('add', () => {
 
   test('returns error when product is not found', async () => {
     const cart = await createCart()
-    const result = await add(cart, 'prod_1234', 1)
+    const result = await upsert(cart, 'prod_1234', 1)
 
     expect(result.success).toBeFalsy()
     expect(result.errors).toMatchObject({ product: { missing: true } })
@@ -116,7 +116,7 @@ describe('add', () => {
 
   test('returns error when price is not found', async () => {
     const cart = await createCart()
-    const result = await add(cart, 'price_1234', 1)
+    const result = await upsert(cart, 'price_1234', 1)
 
     expect(result.success).toBeFalsy()
     expect(result.errors).toMatchObject({ price: { missing: true } })
