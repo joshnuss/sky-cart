@@ -21,9 +21,7 @@ describe('create', () => {
       expect(input.cancel_url).toBe('http://mysite.co/cancel')
       expect(input.currency).toBe('usd')
       expect(input.mode).toBe('payment')
-      expect(input.line_items).toStrictEqual([
-        { price: 'price_12345', quantity: 2 }
-      ])
+      expect(input.line_items).toStrictEqual([{ price: 'price_12345', quantity: 2 }])
       expect(input.metadata).toMatchObject({
         id: `cart_12345`
       })
@@ -33,7 +31,10 @@ describe('create', () => {
 
     const cart = await createCart({ publicId: `cart_12345` })
     const product = await createProduct({ stripeId: 'prod_12345' })
-    const price = await createPrice({ stripeId: 'price_12345', product: { connect: { id: product.id } } })
+    const price = await createPrice({
+      stripeId: 'price_12345',
+      product: { connect: { id: product.id } }
+    })
     await createCartItem({
       cart: {
         connect: { id: cart.id }
