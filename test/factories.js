@@ -37,6 +37,7 @@ export async function createPrice(input = {}) {
 
 export function buildCart(input = {}) {
   return {
+    publicId: `cart_${faker.datatype.string()}`,
     token: faker.datatype.string(),
     status: 'OPEN',
     currency: 'usd',

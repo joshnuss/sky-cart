@@ -63,6 +63,7 @@ enum CartStatus {
 
 model Cart {
   id Int @id @default(autoincrement())
+  publicId String
   token String
   status CartStatus
   currency String
@@ -73,7 +74,9 @@ model Cart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([publicId])
   @@unique([token])
+  @@unique([publicId, token])
 }
 
 model CartItem {
