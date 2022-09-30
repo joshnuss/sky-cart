@@ -1,6 +1,6 @@
 # Sky Cart
 
-Cloud-agnostic shopping cart using Stripe Checkout.
+Cloud-agnostic shopping cart using Stripe Checkout. Reference design for SvelteKit + Prisma apps.
 
 ## Features
 
