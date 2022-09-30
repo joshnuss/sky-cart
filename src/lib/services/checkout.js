@@ -7,6 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 export async function create(cart) {
   const { success_url, cancel_url } = config
   const metadata = { id: cart.publicId }
+
   const items = await db.cartItem.findMany({
     where: { cartId: cart.id },
     include: { price: true }
