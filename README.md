@@ -32,7 +32,7 @@ curl localhost/cart/:id --header 'authorization: token'
 curl localhost/cart/:id \
   --request POST \
   --header 'authorization: token' \
-  --data '{"product": "price_xyz123", "quantity": 2}'
+  --data '{"price": "price_xyz123", "quantity": 2}'
 ```
 
 ### Update an item
