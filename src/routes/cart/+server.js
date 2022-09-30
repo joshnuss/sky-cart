@@ -1,14 +1,8 @@
-import { json } from '@sveltejs/kit'
+import serialize from '$lib/serializers/cart'
 import * as cart from '$lib/services/cart'
 
 export async function POST() {
   const data = await cart.create()
 
-  return json({
-    id: data.publicId,
-    token: data.token,
-    status: data.status.toLowerCase(),
-    currency: data.currency,
-    total: data.total
-  })
+  return serialize(data)
 }

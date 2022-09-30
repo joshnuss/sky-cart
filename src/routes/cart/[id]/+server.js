@@ -1,4 +1,5 @@
-import { error, json } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
+import serialize from '$lib/serializers/cart'
 import * as service from '$lib/services/cart'
 
 export async function GET({ params, request }) {
@@ -9,7 +10,5 @@ export async function GET({ params, request }) {
     throw error(404)
   }
 
-  return json({
-    id: cart.publicId
-  })
+  return serialize(cart)
 }

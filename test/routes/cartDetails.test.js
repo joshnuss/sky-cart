@@ -36,7 +36,12 @@ describe('GET /cart', () => {
   })
 
   test('when id and token is valid, returns cart data', async () => {
-    get.mockImplementation(async () => ({ publicId: 'cart_12345' }))
+    get.mockImplementation(async () => {
+      return {
+        publicId: 'cart_12345',
+        status: 'OPEN'
+      }
+    })
 
     const headers = new Map()
     const request = { headers }
