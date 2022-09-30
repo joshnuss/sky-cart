@@ -9,8 +9,8 @@ Cloud-agnostic shopping cart using Stripe Checkout. Reference design for SvelteK
 - **Headless**: Just an API, can use any frontend you like.
 - **Stripe integration**: Uses [Stripe Checkout](https://checkout.stripe.dev) for payment. Uses [Stripe products & prices](https://stripe.com/docs/products-prices/overview) for catalog. Supports one-time and recurring items with tiered pricing.
 - **SvelteKit**: Uses [SvelteKit](https://kit.svelte.dev) for defining API.
-- **Prisma**: Cart data is stored using [prisma](https://prisma.io). Prisma supports Postgres, MySQL, Mongo and [many more](https://www.prisma.io/docs/reference/database-reference/supported-databases).
-- **Vitest**: Fully tested with [vitest](https://vitest.dev).
+- **Prisma**: Cart data is persisted using [prisma](https://prisma.io). Prisma supports Postgres, MySQL, Mongo and [others](https://www.prisma.io/docs/reference/database-reference/supported-databases).
+- **Vitest**: Full coverage using [vitest](https://vitest.dev).
 
 ## Cart API
 
