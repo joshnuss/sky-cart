@@ -54,6 +54,8 @@ export async function createCart(input = {}) {
 
 export function buildCartItem(input = {}) {
   return {
+    quantity: 1,
+    subtotal: 0,
     ...input
   }
 }
