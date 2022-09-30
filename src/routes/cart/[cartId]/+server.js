@@ -1,13 +1,13 @@
 import { error } from '@sveltejs/kit'
 import serialize from '$lib/serializers/cart'
-import * as service from '$lib/services/cart'
+import * as Carts from '$lib/services/cart'
 
 export const GET = authorize(async cart => {
   return serialize(cart)
 })
 
 export const DELETE = authorize(async cart => {
-  const updated = await service.clear(cart)
+  const updated = await Carts.clear(cart)
 
   return serialize(updated)
 })
@@ -15,7 +15,7 @@ export const DELETE = authorize(async cart => {
 function authorize(callback) {
   return async ({request, params}) => {
     const token = request.headers.get('authorization')
-    const cart = await service.get({ publicId: params.cartId, token })
+    const cart = await Carts.get({ publicId: params.cartId, token })
 
     if (!cart) {
       throw error(401)
