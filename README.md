@@ -49,7 +49,7 @@ curl localhost/cart/:id/price_xyz123 \
 ```bash
 curl localhost/cart/:id/price_xyz123 \
   --request DELETE \
-  --header 'authorization: token' \
+  --header 'authorization: token'
 ```
 
 ### Clear the cart
@@ -57,7 +57,7 @@ curl localhost/cart/:id/price_xyz123 \
 ```bash
 curl localhost/cart/:id \
   --request DELETE \
-  --header 'authorization: token' \
+  --header 'authorization: token'
 ```
 
 ### Checkout
@@ -67,7 +67,7 @@ To create a checkout session, post to `/cart/:id/checkout`.
 ```bash
 curl localhost/cart/:id/checkout \
   --request POST \
-  --header 'authorization: token' \
+  --header 'authorization: token'
 ```
 
 ## Catalog API
