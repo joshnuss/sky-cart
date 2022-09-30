@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
-    "build": "svelte-kit sync && svelte-package",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
