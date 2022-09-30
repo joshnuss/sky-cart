@@ -25,7 +25,7 @@ export async function create() {
 }
 
 export async function clear(cart) {
-  await db.$transaction([clearCart(cart), removeItems(cart)])
+  await db.$transaction([resetCart(cart), removeItems(cart)])
 
   return await get({ id: cart.id })
 }
@@ -128,7 +128,7 @@ function updateCart(cart, increment) {
   })
 }
 
-function clearCart(cart) {
+function resetCart(cart) {
   return db.cart.update({
     data: { total: 0 },
     where: { id: cart.id }
