@@ -10,25 +10,9 @@ export function get(where) {
 }
 
 export async function clear(cart) {
-  await db.$transaction([
-    clearCart(cart),
-    removeCartItems(cart)
-  ])
+  await db.$transaction([clearCart(cart), removeItems(cart)])
 
   return await get({ id: cart.id })
-}
-
-function clearCart(cart) {
-  return db.cart.update({
-    data: { total: 0 },
-    where: { id: cart.id }
-  })
-}
-
-function removeCartItems(cart) {
-  return db.cartItem.deleteMany({
-    where: { id: cart.id }
-  })
 }
 
 export async function add(cart, stripeId, quantity = 1) {
@@ -36,28 +20,12 @@ export async function add(cart, stripeId, quantity = 1) {
     return fail({ quantity: { invalid: true } })
   }
 
-  let product = null
-  let price = null
-  const type = stripeId.split('_').at(0)
+  const { type, product, price } = await getObjects(stripeId)
 
-  if (type == 'prod') {
-    product = await db.product.findUnique({ where: { stripeId } })
-
-    if (!product) {
-      return fail({ product: { missing: true } })
-    }
-
-    price = product
-      ? await db.price.findFirst({ where: { productId: product.id, default: true } })
-      : null
-  } else if (type == 'price') {
-    price = await db.price.findUnique({ where: { stripeId }, include: { product: true } })
-
-    if (!price) {
-      return fail({ price: { missing: true } })
-    }
-
-    product = price.product
+  if (type == 'prod' && !product) {
+    return fail({ product: { missing: true } })
+  } else if (type == 'price' && !price) {
+    return fail({ price: { missing: true } })
   }
 
   await db.$transaction([
@@ -67,10 +35,51 @@ export async function add(cart, stripeId, quantity = 1) {
 
   cart = await get({ id: cart.id })
 
-  return {
-    success: true,
-    cart
+  return success({ cart })
+}
+
+export async function remove(cart, stripeId) {
+  const { type, product, price } = await getObjects(stripeId)
+
+  if (type == 'prod' && !product) {
+    return fail({ product: { missing: true } })
+  } else if (type == 'price' && !price) {
+    return fail({ price: { missing: true } })
   }
+
+  const item = await getItem(cart, price)
+
+  if (!item) {
+    return fail({ item: { missing: true } })
+  }
+
+  await db.$transaction([removeItem(cart, item), updateCart(cart, -item.subtotal)])
+
+  cart = await get({ id: cart.id })
+
+  return success({ cart })
+}
+
+function getItem(cart, price) {
+  return db.cartItem.findUnique({
+    where: {
+      cartId_priceId: {
+        cartId: cart.id,
+        priceId: price.id
+      }
+    }
+  })
+}
+
+function removeItem(cart, price) {
+  return db.cartItem.delete({
+    where: {
+      cartId_priceId: {
+        cartId: cart.id,
+        priceId: price.id
+      }
+    }
+  })
 }
 
 function upsertItem(cart, product, price, quantity) {
@@ -102,6 +111,48 @@ function updateCart(cart, increment) {
       total: { increment }
     }
   })
+}
+
+function clearCart(cart) {
+  return db.cart.update({
+    data: { total: 0 },
+    where: { id: cart.id }
+  })
+}
+
+function removeItems(cart) {
+  return db.cartItem.deleteMany({
+    where: { id: cart.id }
+  })
+}
+
+async function getObjects(stripeId) {
+  let product = null
+  let price = null
+  const type = stripeId.split('_').at(0)
+
+  if (type == 'prod') {
+    product = await db.product.findUnique({ where: { stripeId } })
+
+    if (product) {
+      price = await db.price.findFirst({ where: { productId: product.id, default: true } })
+    }
+  } else if (type == 'price') {
+    price = await db.price.findUnique({ where: { stripeId }, include: { product: true } })
+
+    if (price) {
+      product = price.product
+    }
+  }
+
+  return { type, product, price }
+}
+
+function success(extra = {}) {
+  return {
+    success: true,
+    ...extra
+  }
 }
 
 function fail(errors) {

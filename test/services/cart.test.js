@@ -1,4 +1,4 @@
-import { get, add, clear } from '$lib/services/cart'
+import { get, add, remove, clear } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
@@ -120,6 +120,91 @@ describe('add', () => {
 
     expect(result.success).toBeFalsy()
     expect(result.errors).toMatchObject({ price: { missing: true } })
+  })
+})
+
+describe('remove', () => {
+  test('when item exists, it removes it', async () => {
+    const cart = await createCart({ total: 1000 })
+    const product = await createProduct({ stripeId: 'prod_12345' })
+    const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
+    await createCartItem({
+      cart: {
+        connect: { id: cart.id }
+      },
+      product: {
+        connect: { id: product.id }
+      },
+      price: {
+        connect: { id: price.id }
+      },
+      quantity: 1,
+      subtotal: 1000
+    })
+
+    const result = await remove(cart, 'prod_12345')
+
+    expect(result).toMatchObject({
+      success: true,
+      cart: {
+        total: 0,
+        cartItems: []
+      }
+    })
+  })
+
+  test("when price doesn't exist, it doesn't update cart", async () => {
+    let cart = await createCart({ total: 1000 })
+    const product = await createProduct({ stripeId: 'prod_12345' })
+    const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
+    await createCartItem({
+      cart: {
+        connect: { id: cart.id }
+      },
+      product: {
+        connect: { id: product.id }
+      },
+      price: {
+        connect: { id: price.id }
+      },
+      quantity: 1,
+      subtotal: 1000
+    })
+
+    const result = await remove(cart, 'prod_missing')
+    expect(result.success).toBeFalsy()
+
+    cart = await get({ id: cart.id })
+
+    expect(cart.total).toBe(1000)
+    expect(cart.cartItems).toHaveLength(1)
+  })
+
+  test("when item doesn't exist, it doesn't update cart", async () => {
+    let cart = await createCart({ total: 1000 })
+    const product = await createProduct({ stripeId: 'prod_12345' })
+    const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
+    await createCartItem({
+      cart: {
+        connect: { id: cart.id }
+      },
+      product: {
+        connect: { id: product.id }
+      },
+      price: {
+        connect: { id: price.id }
+      },
+      quantity: 1,
+      subtotal: 1000
+    })
+
+    const result = await remove(cart, 'prod_missing')
+    expect(result.success).toBeFalsy()
+
+    cart = await get({ id: cart.id })
+
+    expect(cart.total).toBe(1000)
+    expect(cart.cartItems).toHaveLength(1)
   })
 })
 
