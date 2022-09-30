@@ -35,7 +35,7 @@ devDependencies:
   prettier: 2.7.1
   prettier-plugin-svelte: 2.7.1_nk6d2fkgcllkkdynqbuearcure
   prisma: 4.4.0
-  prisma-database-cleaner: 0.0.2_prisma@4.4.0
+  prisma-database-cleaner: 0.0.2_@prisma+client@4.4.0
   svelte: 3.50.1
   tslib: 2.4.0
   typescript: 4.8.4
@@ -1695,12 +1695,12 @@ packages:
     hasBin: true
     dev: true
 
-  /prisma-database-cleaner/0.0.2_prisma@4.4.0:
+  /prisma-database-cleaner/0.0.2_@prisma+client@4.4.0:
     resolution: {integrity: sha512-hyi15HALcbEpKp121mvVUw4WrZn66rWCz/P+rZAUnXw1eq/EkFZMGIoJz8v0i2mM5NJKkHnKBQkN82A83/f97Q==}
+    peerDependencies:
+      '@prisma/client': 4.x
     dependencies:
       '@prisma/client': 4.4.0_prisma@4.4.0
-    transitivePeerDependencies:
-      - prisma
     dev: true
 
   /prisma/4.4.0:
