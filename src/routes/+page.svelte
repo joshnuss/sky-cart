@@ -1,3 +1,4 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Sky Cart</h1>
+<p>Cloud-agnostic shopping cart using Stripe Checkout.</p>
+<p>Reference design for SvelteKit + Prisma apps.</p>
+<p>Visit <a href="https://github.com/joshnuss/sky-cart">github.com/joshnuss/sky-cart</a> to read the documentation</p>
