@@ -6,7 +6,7 @@ export async function GET({ params, request }) {
   const token = request.headers.get('authorization')
   const cart = await service.get({ publicId: params.id, token })
 
-  if (cart == null) {
+  if (!cart) {
     throw error(401)
   }
 
