@@ -37,6 +37,7 @@ model Price {
 
   stripeId String
   type String
+  billingScheme String
   currency String
   nickname String?
   recurring Json?
@@ -46,6 +47,7 @@ model Price {
   unitAmount Int?
   unitAmountDecimal String?
   customUnitAmount Json?
+  default Boolean
   cartItems CartItem[]
 
   createdAt DateTime @default(now())
@@ -63,6 +65,7 @@ model Cart {
   id Int @id @default(autoincrement())
   token String
   status CartStatus
+  currency String
   total Int
 
   cartItems CartItem[]
@@ -85,10 +88,12 @@ model CartItem {
   priceId Int
   price Price @relation(fields: [priceId], references: [id])
 
-  currency String
   quantity Int
   subtotal Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([cartId, priceId])
+  @@unique([cartId, productId, priceId])
 }

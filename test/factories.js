@@ -17,12 +17,14 @@ export async function createProduct(input = {}) {
 
 export function buildPrice(input = {}) {
   return {
-    stripeId: `prod_${faker.datatype.string()}`,
+    stripeId: `price_${faker.datatype.string()}`,
     type: 'one_time',
     currency: 'usd',
+    billingScheme: 'per_unit',
     taxBehavior: 'unspecified',
     unitAmount: 1200,
     unitAmountDecimal: '1200',
+    default: true,
     ...input
   }
 }
@@ -37,6 +39,7 @@ export function buildCart(input = {}) {
   return {
     token: faker.datatype.string(),
     status: 'OPEN',
+    currency: 'usd',
     total: 0,
     ...input
   }
