@@ -1,10 +1,10 @@
-import { GET } from '$routes/cart/[id]/+server'
+import { GET } from '$routes/cart/[cartId]/+server'
 import { get } from '$lib/services/cart'
 
 vi.mock('$lib/services/cart')
 
 describe('GET /cart', () => {
-  const params = { id: 'cart_12345' }
+  const params = { cartId: 'cart_12345' }
 
   test('when id is invalid, returns 401', async () => {
     get.mockImplementation(async () => null)
