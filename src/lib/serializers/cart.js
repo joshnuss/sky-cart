@@ -1,11 +1,13 @@
 import { json } from '@sveltejs/kit'
 
-export default function(data) {
+export default function(cart) {
+  const { publicId: id, token, status, currency, total } = cart
+
   return json({
-    id: data.publicId,
-    token: data.token,
-    status: data.status.toLowerCase(),
-    currency: data.currency,
-    total: data.total
+    id,
+    status: status.toLowerCase(),
+    token,
+    currency,
+    total
   })
 }
