@@ -102,9 +102,10 @@ curl localhost/products/prod_1234
 ## Setup
 
 1. Configure `STRIPE_SECRET_KEY` in the `.env`.
-2. Configure CORS domain(s) in the `.env`.
-3. Setup webooks
-4. Sync product & price data by running `pnpm catalog:sync`
+2. Copy config `cp config.example.js config.js`
+3. Configure settings in `config.js`
+4. Setup webooks
+5. Sync product & price data by running `pnpm catalog:sync`
 
 ## License
 
