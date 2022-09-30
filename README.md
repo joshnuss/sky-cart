@@ -23,13 +23,14 @@ curl localhost/cart --request POST
 ### Read cart
 
 ```bash
-curl localhost/cart --header 'x-cart-token: token'
+curl localhost/cart/:id --header 'x-cart-token: token'
 ```
 
 ### Add an item
 
 ```bash
-curl localhost/cart \
+curl localhost/cart/:id \
+  --request POST \
   --header 'x-cart-token: token' \
   --data 'product=price_xyz123'
 ```
@@ -37,7 +38,7 @@ curl localhost/cart \
 ### Update an item
 
 ```bash
-curl localhost/cart/price_xyz123 \
+curl localhost/cart/:id/price_xyz123 \
   --request PATCH \
   --header 'x-cart-token: token' \
   --data 'quantity=2'
@@ -46,7 +47,7 @@ curl localhost/cart/price_xyz123 \
 ### Remove an item
 
 ```bash
-curl localhost/cart/price_xyz123 \
+curl localhost/cart/:id/price_xyz123 \
   --request DELETE \
   --header 'x-cart-token: token' \
 ```
@@ -54,17 +55,17 @@ curl localhost/cart/price_xyz123 \
 ### Clear the cart
 
 ```bash
-curl localhost/cart \
+curl localhost/cart/:id \
   --request DELETE \
   --header 'x-cart-token: token' \
 ```
 
 ### Checkout
 
-To create a checkout session, post to `/cart/checkout`.
+To create a checkout session, post to `/cart/:id/checkout`.
 
 ```bash
-curl localhost/cart/checkout \
+curl localhost/cart/:id/checkout \
   --request POST \
   --header 'x-cart-token: token' \
 ```
