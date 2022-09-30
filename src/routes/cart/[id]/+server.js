@@ -7,7 +7,7 @@ export async function GET({ params, request }) {
   const cart = await service.get({ publicId: params.id, token })
 
   if (cart == null) {
-    throw error(404)
+    throw error(401)
   }
 
   return serialize(cart)

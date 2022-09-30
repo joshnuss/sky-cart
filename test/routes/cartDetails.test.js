@@ -6,7 +6,7 @@ vi.mock('$lib/services/cart')
 describe('GET /cart', () => {
   const params = { id: 'cart_12345' }
 
-  test('when id is invalid, returns 404', async () => {
+  test('when id is invalid, returns 401', async () => {
     get.mockImplementation(async () => null)
 
     const request = {
@@ -15,12 +15,12 @@ describe('GET /cart', () => {
 
     await expect(GET({params, request}))
       .rejects
-      .toMatchObject({ status: 404 })
+      .toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: undefined })
   })
 
-  test('when token is invalid, returns 404', async () => {
+  test('when token is invalid, returns 401', async () => {
     get.mockImplementation(async () => null)
 
     const headers = new Map()
@@ -30,7 +30,7 @@ describe('GET /cart', () => {
 
     await expect(GET({ params, request }))
       .rejects
-      .toMatchObject({ status: 404 })
+      .toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
   })
