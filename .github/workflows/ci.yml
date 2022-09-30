@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Copy config
+        run: cp config.example.js config.js
+
       - name: Setup database
         run: pnpm prisma db push
 
