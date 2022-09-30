@@ -13,9 +13,7 @@ describe('GET /cart/:id', () => {
       headers: new Map()
     }
 
-    await expect(GET({params, request}))
-      .rejects
-      .toMatchObject({ status: 401 })
+    await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: undefined })
   })
@@ -28,9 +26,7 @@ describe('GET /cart/:id', () => {
 
     headers.set('authorization', 'fake-token')
 
-    await expect(GET({ params, request }))
-      .rejects
-      .toMatchObject({ status: 401 })
+    await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
   })
@@ -69,9 +65,7 @@ describe('DELETE /cart/:id', () => {
       headers: new Map()
     }
 
-    await expect(DELETE({params, request}))
-      .rejects
-      .toMatchObject({ status: 401 })
+    await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: undefined })
   })
@@ -84,9 +78,7 @@ describe('DELETE /cart/:id', () => {
 
     headers.set('authorization', 'fake-token')
 
-    await expect(DELETE({ params, request }))
-      .rejects
-      .toMatchObject({ status: 401 })
+    await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
     expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
   })
