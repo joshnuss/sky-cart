@@ -5,10 +5,10 @@ Cloud-agnostic shopping cart using Stripe Checkout.
 ## Features
 
 - **Cloud-native**: Runs as cloud functions.
-- **Cloud-agnostic**: Runs on any cloud. Including Vercel, Netlify, etc...
+- **Cloud-agnostic**: Runs on any cloud. Vercel, Netlify, etc...
 - **Headless**: Just an API, can use any frontend you like.
 - **Stripe integration**: Uses [Stripe Checkout](https://checkout.stripe.dev) for payment. Uses [Stripe products & prices](https://stripe.com/docs/products-prices/overview) for catalog. Supports one-time and recurring items with tiered pricing.
-- **SvelteKit**: Uses to [SvelteKit](https://kit.svelte.dev) for defining API.
+- **SvelteKit**: Uses [SvelteKit](https://kit.svelte.dev) for defining API.
 - **Prisma**: Cart data is stored using [prisma](https://prisma.io). Prisma supports Postgres, MySQL, Mongo and [many more](https://www.prisma.io/docs/reference/database-reference/supported-databases).
 - **Vitest**: Fully tested with [vitest](https://vitest.dev).
 
