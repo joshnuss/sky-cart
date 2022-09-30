@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
-import { db } from './db'
 import config from '$config'
+import { db } from './db'
+import { success, fail } from './result'
 
 export function get(where) {
   return db.cart.findUnique({
@@ -160,18 +161,4 @@ async function getObjects(stripeId) {
   }
 
   return { type, product, price }
-}
-
-function success(extra = {}) {
-  return {
-    success: true,
-    ...extra
-  }
-}
-
-function fail(errors) {
-  return {
-    success: false,
-    errors
-  }
 }
