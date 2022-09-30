@@ -7,7 +7,7 @@ export function get(where) {
   return db.cart.findUnique({
     where,
     include: {
-      cartItems: true
+      items: true
     }
   })
 }

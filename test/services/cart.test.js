@@ -51,9 +51,9 @@ describe('upsert', () => {
     const result = await upsert(cart, 'prod_12345', 2)
 
     expect(result.success).toBeTruthy()
-    expect(result.cart.cartItems).toHaveLength(1)
+    expect(result.cart.items).toHaveLength(1)
 
-    item = result.cart.cartItems[0]
+    item = result.cart.items[0]
     expect(item.productId).toBe(product.id)
     expect(item.priceId).toBe(price.id)
     expect(item.quantity).toBe(3)
@@ -68,9 +68,9 @@ describe('upsert', () => {
     const result = await upsert(cart, 'prod_1234', 2)
 
     expect(result.success).toBeTruthy()
-    expect(result.cart.cartItems).toHaveLength(1)
+    expect(result.cart.items).toHaveLength(1)
 
-    const item = result.cart.cartItems[0]
+    const item = result.cart.items[0]
     expect(item.productId).toBe(product.id)
     expect(item.priceId).toBe(price.id)
     expect(item.quantity).toBe(2)
@@ -89,9 +89,9 @@ describe('upsert', () => {
     const result = await upsert(cart, 'price_1234', 2)
 
     expect(result.success).toBeTruthy()
-    expect(result.cart.cartItems).toHaveLength(1)
+    expect(result.cart.items).toHaveLength(1)
 
-    const item = result.cart.cartItems[0]
+    const item = result.cart.items[0]
     expect(item.productId).toBe(product.id)
     expect(item.priceId).toBe(price.id)
     expect(item.quantity).toBe(2)
@@ -161,7 +161,7 @@ describe('remove', () => {
       success: true,
       cart: {
         total: 0,
-        cartItems: []
+        items: []
       }
     })
   })
@@ -190,7 +190,7 @@ describe('remove', () => {
     cart = await get({ id: cart.id })
 
     expect(cart.total).toBe(1000)
-    expect(cart.cartItems).toHaveLength(1)
+    expect(cart.items).toHaveLength(1)
   })
 
   test("when item doesn't exist, it doesn't update cart", async () => {
@@ -217,7 +217,7 @@ describe('remove', () => {
     cart = await get({ id: cart.id })
 
     expect(cart.total).toBe(1000)
-    expect(cart.cartItems).toHaveLength(1)
+    expect(cart.items).toHaveLength(1)
   })
 })
 
@@ -243,6 +243,6 @@ describe('clear', () => {
     cart = await clear(cart)
 
     expect(cart.total).toBe(0)
-    expect(cart.cartItems).toHaveLength(0)
+    expect(cart.items).toHaveLength(0)
   })
 })
