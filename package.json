@@ -8,7 +8,8 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-search-dir . --write .",
+    "stripe:sync": "node scripts/sync.js"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
