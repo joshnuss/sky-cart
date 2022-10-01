@@ -8,6 +8,7 @@ export default function (cart) {
     status: status.toLowerCase(),
     token,
     currency,
-    total
+    total,
+    items: cart.items
   })
 }
