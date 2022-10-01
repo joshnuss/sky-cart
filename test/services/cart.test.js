@@ -1,10 +1,10 @@
-import { get, create, upsert, remove, clear } from '$lib/services/cart'
+import { get, getByToken, create, upsert, remove, clear } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
   test('when exists, returns cart', async () => {
     const cart = createCart()
-    const result = get({ token: cart.token })
+    const result = get({ id: cart.id })
 
     expect(result).not.toBeNull()
     expect(result.id).toBe(cart.id)
@@ -12,6 +12,22 @@ describe('get', () => {
 
   test('when not found, returns null', async () => {
     const result = await get({ token: 'unknown' })
+
+    expect(result).toBeNull()
+  })
+})
+
+describe('getByToken', () => {
+  test('when exists, returns cart', async () => {
+    const cart = createCart()
+    const result = getByToken(cart.publicId, cart.token)
+
+    expect(result).not.toBeNull()
+    expect(result.id).toBe(cart.id)
+  })
+
+  test('when not found, returns null', async () => {
+    const result = await getByToken('cart_xyz', 'bad-token')
 
     expect(result).toBeNull()
   })
