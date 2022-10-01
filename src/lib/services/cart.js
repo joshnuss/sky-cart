@@ -25,7 +25,15 @@ export async function create() {
 }
 
 export async function clear(cart) {
-  await db.$transaction([resetCart(cart), removeItems(cart)])
+  await db.cart.update({
+    where: { id: cart.id },
+    data: {
+      items: {
+        deleteMany: {}
+      },
+      total: 0
+    }
+  })
 
   return await get({ id: cart.id })
 }
@@ -43,10 +51,34 @@ export async function upsert(cart, stripeId, quantity = 1) {
     return fail({ price: { missing: true } })
   }
 
-  await db.$transaction([
-    upsertItem(cart, product, price, quantity),
-    updateCart(cart, quantity * price.unitAmount)
-  ])
+  await db.cart.update({
+    where: { id: cart.id },
+    data: {
+      total: {
+        increment: quantity * price.unitAmount
+      },
+      items: {
+        upsert: {
+          where: {
+            cartId_priceId: {
+              cartId: cart.id,
+              priceId: price.id
+            }
+          },
+          create: {
+            productId: product.id,
+            priceId: price.id,
+            quantity,
+            subtotal: quantity * price.unitAmount
+          },
+          update: {
+            quantity: { increment: quantity },
+            subtotal: { increment: quantity * price.unitAmount }
+          }
+        }
+      }
+    }
+  })
 
   cart = await get({ id: cart.id })
 
@@ -68,7 +100,19 @@ export async function remove(cart, stripeId) {
     return fail({ item: { missing: true } })
   }
 
-  await db.$transaction([removeItem(cart, item), updateCart(cart, -item.subtotal)])
+  await db.cart.update({
+    where: { id: cart.id },
+    data: {
+      total: {
+        decrement: item.subtotal
+      },
+      items: {
+        delete: {
+          id: item.id
+        }
+      }
+    }
+  })
 
   cart = await get({ id: cart.id })
 
@@ -83,61 +127,6 @@ function getItem(cart, price) {
         priceId: price.id
       }
     }
-  })
-}
-
-function removeItem(cart, price) {
-  return db.cartItem.delete({
-    where: {
-      cartId_priceId: {
-        cartId: cart.id,
-        priceId: price.id
-      }
-    }
-  })
-}
-
-function upsertItem(cart, product, price, quantity) {
-  return db.cartItem.upsert({
-    where: {
-      cartId_priceId: {
-        cartId: cart.id,
-        priceId: price.id
-      }
-    },
-    create: {
-      cartId: cart.id,
-      productId: product.id,
-      priceId: price.id,
-      quantity,
-      subtotal: quantity * price.unitAmount
-    },
-    update: {
-      quantity: { increment: quantity },
-      subtotal: { increment: quantity * price.unitAmount }
-    }
-  })
-}
-
-function updateCart(cart, increment) {
-  return db.cart.update({
-    where: { id: cart.id },
-    data: {
-      total: { increment }
-    }
-  })
-}
-
-function resetCart(cart) {
-  return db.cart.update({
-    data: { total: 0 },
-    where: { id: cart.id }
-  })
-}
-
-function removeItems(cart) {
-  return db.cartItem.deleteMany({
-    where: { id: cart.id }
   })
 }
 
