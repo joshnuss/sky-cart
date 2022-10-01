@@ -15,7 +15,12 @@ export const DELETE = authorize(async (cart) => {
 function authorize(callback) {
   return async ({ request, params }) => {
     const token = request.headers.get('authorization')
-    const cart = await Carts.get({ publicId: params.cartId, token })
+    const cart = await Carts.get({
+      publicId_token: {
+        publicId: params.cartId,
+        token
+      }
+    })
 
     if (!cart) {
       throw error(401)

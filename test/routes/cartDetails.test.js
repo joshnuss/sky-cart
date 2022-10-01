@@ -15,7 +15,12 @@ describe('GET /cart/:id', () => {
 
     await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: undefined })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: undefined
+      }
+    })
   })
 
   test('when token is invalid, returns 401', async () => {
@@ -28,7 +33,12 @@ describe('GET /cart/:id', () => {
 
     await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: 'fake-token'
+      }
+    })
   })
 
   test('when id and token is valid, returns cart data', async () => {
@@ -51,7 +61,12 @@ describe('GET /cart/:id', () => {
       id: 'cart_12345'
     })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: 'fake-token'
+      }
+    })
   })
 })
 
@@ -67,7 +82,12 @@ describe('DELETE /cart/:id', () => {
 
     await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: undefined })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: undefined
+      }
+    })
   })
 
   test('when token is invalid, returns 401', async () => {
@@ -80,7 +100,12 @@ describe('DELETE /cart/:id', () => {
 
     await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: 'fake-token'
+      }
+    })
   })
 
   test('when id and token is valid, clears cart', async () => {
@@ -108,7 +133,12 @@ describe('DELETE /cart/:id', () => {
       id: 'cart_12345'
     })
 
-    expect(get).toHaveBeenCalledWith({ publicId: 'cart_12345', token: 'fake-token' })
+    expect(get).toHaveBeenCalledWith({
+      publicId_token: {
+        publicId: 'cart_12345',
+        token: 'fake-token'
+      }
+    })
     expect(clear).toHaveBeenCalled()
   })
 })
