@@ -92,11 +92,17 @@ curl localhost/products/prod_1234
 
 ## Setup
 
+### Development
+
 1. Configure `STRIPE_SECRET_KEY` in the `.env`.
 2. Copy config `cp config.example.js config.js`
 3. Configure settings in `config.js`
-4. Setup webooks
+4. Use stripe CLI to listen to events. `stripe listen --forward-to localhost:5173/events`
 5. Sync product & price data by running `pnpm stripe:sync`
+
+### Production
+
+TODO: add production instructions
 
 ## License
 
