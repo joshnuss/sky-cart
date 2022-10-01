@@ -14,11 +14,14 @@ model Product {
   id Int @id @default(autoincrement())
   stripeId String
   name String
+  description String?
+  defaultPriceId String?
   packageDimensions Json?
   images String[]
   shippable Boolean?
   unitLabel String?
   url String?
+  active Boolean
 
   prices Price[]
   cartItems CartItem[]
@@ -48,6 +51,7 @@ model Price {
   unitAmountDecimal String?
   customUnitAmount Json?
   default Boolean
+  active Boolean
   cartItems CartItem[]
 
   createdAt DateTime @default(now())

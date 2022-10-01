@@ -5,6 +5,7 @@ export function buildProduct(input = {}) {
   return {
     stripeId: `prod_${faker.datatype.string()}`,
     name: faker.commerce.product(),
+    active: true,
     ...input
   }
 }
@@ -25,6 +26,7 @@ export function buildPrice(input = {}) {
     unitAmount: 1200,
     unitAmountDecimal: '1200',
     default: true,
+    active: true,
     ...input
   }
 }
