@@ -1,5 +1,5 @@
 import { GET, DELETE } from '$routes/cart/[cartId]/+server'
-import { get, clear } from '$lib/services/cart'
+import { getByToken, clear } from '$lib/services/cart'
 
 vi.mock('$lib/services/cart')
 
@@ -7,7 +7,7 @@ describe('GET /cart/:id', () => {
   const params = { cartId: 'cart_12345' }
 
   test('when id is invalid, returns 401', async () => {
-    get.mockImplementation(async () => null)
+    getByToken.mockImplementation(async () => null)
 
     const request = {
       headers: new Map()
@@ -15,16 +15,11 @@ describe('GET /cart/:id', () => {
 
     await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: undefined
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', undefined)
   })
 
   test('when token is invalid, returns 401', async () => {
-    get.mockImplementation(async () => null)
+    getByToken.mockImplementation(async () => null)
 
     const headers = new Map()
     const request = { headers }
@@ -33,16 +28,11 @@ describe('GET /cart/:id', () => {
 
     await expect(GET({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: 'fake-token'
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
   })
 
   test('when id and token is valid, returns cart data', async () => {
-    get.mockImplementation(async () => {
+    getByToken.mockImplementation(async () => {
       return {
         publicId: 'cart_12345',
         status: 'OPEN'
@@ -61,12 +51,7 @@ describe('GET /cart/:id', () => {
       id: 'cart_12345'
     })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: 'fake-token'
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
   })
 })
 
@@ -74,7 +59,7 @@ describe('DELETE /cart/:id', () => {
   const params = { cartId: 'cart_12345' }
 
   test('when id is invalid, returns 401', async () => {
-    get.mockImplementation(async () => null)
+    getByToken.mockImplementation(async () => null)
 
     const request = {
       headers: new Map()
@@ -82,16 +67,11 @@ describe('DELETE /cart/:id', () => {
 
     await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: undefined
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', undefined)
   })
 
   test('when token is invalid, returns 401', async () => {
-    get.mockImplementation(async () => null)
+    getByToken.mockImplementation(async () => null)
 
     const headers = new Map()
     const request = { headers }
@@ -100,16 +80,11 @@ describe('DELETE /cart/:id', () => {
 
     await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: 'fake-token'
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
   })
 
   test('when id and token is valid, clears cart', async () => {
-    get.mockImplementation(async () => {
+    getByToken.mockImplementation(async () => {
       return {
         id: 123
       }
@@ -133,12 +108,7 @@ describe('DELETE /cart/:id', () => {
       id: 'cart_12345'
     })
 
-    expect(get).toHaveBeenCalledWith({
-      publicId_token: {
-        publicId: 'cart_12345',
-        token: 'fake-token'
-      }
-    })
+    expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
     expect(clear).toHaveBeenCalled()
   })
 })
