@@ -2,6 +2,7 @@
 import { Prisma } from '@prisma/client'
 import { stripe } from './stripe'
 import { db } from './db'
+import { eachPage } from './paging'
 
 export function syncProducts() {
   return eachPage(stripe.products, upsertProduct)
@@ -9,27 +10,6 @@ export function syncProducts() {
 
 export function syncPrices() {
   return eachPage(stripe.prices, upsertPrice)
-}
-
-async function eachPage(object, callback) {
-  let count = 0
-  let starting_after = undefined
-
-  while (true) {
-    const { data, has_more } = await object.list({
-      starting_after,
-      limit: 20
-    })
-
-    await Promise.all(data.map(callback))
-    count += data.length
-
-    if (!has_more) break
-
-    starting_after = data.at(-1).id
-  }
-
-  return count
 }
 
 export function upsertProduct(product) {
