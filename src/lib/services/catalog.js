@@ -1,13 +1,14 @@
 import { db } from './db'
 
-export async function all() {
-  return await db.product.findMany({
+export function all() {
+  return db.product.findMany({
+    where: { active: true },
     include: { prices: true }
   })
 }
 
-export async function get(stripeId) {
-  return await db.product.findUnique({
+export function get(stripeId) {
+  return db.product.findUnique({
     where: { stripeId },
     include: { prices: true }
   })
