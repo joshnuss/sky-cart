@@ -17,8 +17,7 @@ function authorize(callback) {
     const token = request.headers.get('authorization')
     const cart = await Carts.getByToken(params.cartId, token)
 
-    if (!cart)
-      throw error(401)
+    if (!cart) throw error(401)
 
     return await callback(cart)
   }

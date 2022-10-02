@@ -15,7 +15,8 @@ export function get(where) {
 export function getByToken(publicId, token) {
   return get({
     publicId_token: {
-      publicId, token
+      publicId,
+      token
     }
   })
 }
