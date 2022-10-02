@@ -1,3 +1,7 @@
-import { sync } from '../src/lib/services/sync'
+import { syncProducts, syncPrices } from '$lib/services/sync.js'
 
-await sync()
+const products = await syncProducts()
+const prices = await syncPrices()
+
+console.log(`synced ${products} products`)
+console.log(`synced ${prices} prices`)
