@@ -8,6 +8,7 @@ export default mergeConfig(
     test: {
       threads: false,
       globals: true,
+      silent: true,
       setupFiles: './test/setup.js'
     },
     resolve: {
