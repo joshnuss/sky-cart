@@ -1,8 +1,6 @@
-import Stripe from 'stripe'
 import config from '$config'
+import { stripe } from './stripe'
 import { db } from './db'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function create(cart) {
   const { success_url, cancel_url } = config
