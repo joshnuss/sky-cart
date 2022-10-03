@@ -32,7 +32,7 @@ export async function create() {
   return db.cart.create({
     data: {
       currency: config.currency,
-      publicId: `cart_${nanoid(20)}`,
+      publicId: `cart_${nanoid(14)}`,
       token: nanoid(40),
       status: 'OPEN',
       total: 0
