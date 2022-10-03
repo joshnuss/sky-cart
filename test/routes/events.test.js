@@ -34,11 +34,13 @@ describe('POST /events', () => {
       throw new Error('whoops')
     })
 
-    await expect(POST({ request }))
-      .rejects
-      .toMatchObject({ status: 400 })
+    await expect(POST({ request })).rejects.toMatchObject({ status: 400 })
 
-    expect(Stripe.prototype.webhooks.constructEvent).toHaveBeenCalledWith('body-text', 'a-signature', 'webhook-secret')
+    expect(Stripe.prototype.webhooks.constructEvent).toHaveBeenCalledWith(
+      'body-text',
+      'a-signature',
+      'webhook-secret'
+    )
   })
 
   describe('when signature is valid', () => {
@@ -53,7 +55,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductCreated).toHaveBeenCalledWith('prod_1234')
@@ -70,7 +72,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductUpdated).toHaveBeenCalledWith('prod_1234')
@@ -87,7 +89,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductDeleted).toHaveBeenCalledWith('prod_1234')
@@ -104,7 +106,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceCreated).toHaveBeenCalledWith('price_1234')
@@ -121,7 +123,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceUpdated).toHaveBeenCalledWith('price_1234')
@@ -138,7 +140,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({request})
+      const response = await POST({ request })
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceUpdated).toHaveBeenCalledWith('price_1234')

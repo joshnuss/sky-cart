@@ -18,4 +18,3 @@ export async function eachPage(object, callback) {
 
   return count
 }
-

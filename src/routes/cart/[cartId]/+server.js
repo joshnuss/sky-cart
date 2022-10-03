@@ -7,15 +7,14 @@ export const GET = authorize((cart) => {
   return serialize(cart)
 })
 
-export const POST = authorize(async (cart, {request}) => {
+export const POST = authorize(async (cart, { request }) => {
   const input = await request.json()
   const stripeId = input.product || input.price
   const quantity = input.quantity || 1
 
   const result = await Carts.upsert(cart, stripeId, quantity)
 
-  if (result.errors)
-    throw error(400, result.errors)
+  if (result.errors) throw error(400, result.errors)
 
   return serialize(result.cart)
 })
