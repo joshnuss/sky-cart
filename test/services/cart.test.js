@@ -2,7 +2,7 @@ import { get, getByToken, create, upsert, remove, clear } from '$lib/services/ca
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
-  test('when exists, returns cart', async () => {
+  test('when found, returns cart', async () => {
     const cart = createCart()
     const result = get({ id: cart.id })
 
@@ -18,7 +18,7 @@ describe('get', () => {
 })
 
 describe('getByToken', () => {
-  test('when exists, returns cart', async () => {
+  test('when found, returns cart', async () => {
     const cart = createCart()
     const result = getByToken(cart.publicId, cart.token)
 
@@ -77,7 +77,7 @@ describe('upsert', () => {
     expect(result.cart.total).toBe(3000)
   })
 
-  test("when line item doesn't exists, adds a new line item", async () => {
+  test("when line item doesn't exist, adds a new line item", async () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -115,7 +115,7 @@ describe('upsert', () => {
     expect(result.cart.total).toBe(2000)
   })
 
-  test('returns error when quantity is zero', async () => {
+  test('when quantity is zero, returns error', async () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -125,7 +125,7 @@ describe('upsert', () => {
     expect(result.errors.quantity).toContain({ invalid: true })
   })
 
-  test('returns error when quantity is less than zero', async () => {
+  test('when quantity is less than zero, returns error', async () => {
     const cart = await createCart()
     const product = await createProduct({ stripeId: 'prod_1234' })
     await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -135,7 +135,7 @@ describe('upsert', () => {
     expect(result.errors).toMatchObject({ quantity: { invalid: true } })
   })
 
-  test('returns error when product is not found', async () => {
+  test('when product is not found, returns error', async () => {
     const cart = await createCart()
     const result = await upsert(cart, 'prod_1234', 1)
 
@@ -153,7 +153,7 @@ describe('upsert', () => {
 })
 
 describe('remove', () => {
-  test('when item exists, it removes it', async () => {
+  test('when item exists, removes it', async () => {
     const cart = await createCart({ total: 1000 })
     const product = await createProduct({ stripeId: 'prod_12345' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -182,7 +182,7 @@ describe('remove', () => {
     })
   })
 
-  test("when price doesn't exist, it doesn't update cart", async () => {
+  test("when price doesn't exist, doesn't update cart", async () => {
     let cart = await createCart({ total: 1000 })
     const product = await createProduct({ stripeId: 'prod_12345' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -209,7 +209,7 @@ describe('remove', () => {
     expect(cart.items).toHaveLength(1)
   })
 
-  test("when item doesn't exist, it doesn't update cart", async () => {
+  test("when item doesn't exist, doesn't update cart", async () => {
     let cart = await createCart({ total: 1000 })
     const product = await createProduct({ stripeId: 'prod_12345' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })
@@ -238,7 +238,7 @@ describe('remove', () => {
 })
 
 describe('clear', () => {
-  test('removes items', async () => {
+  test('removes all items', async () => {
     let cart = await createCart({ total: 1000 })
     const product = await createProduct({ stripeId: 'prod_12345' })
     const price = await createPrice({ product: { connect: { id: product.id } }, unitAmount: 1000 })

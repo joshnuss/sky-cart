@@ -31,7 +31,7 @@ describe('GET /cart/:id', () => {
     expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
   })
 
-  test('when id and token is valid, returns cart data', async () => {
+  test('when id and token are valid, returns cart data', async () => {
     getByToken.mockImplementation(async () => {
       return {
         publicId: 'cart_12345',
@@ -83,7 +83,7 @@ describe('DELETE /cart/:id', () => {
     expect(getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
   })
 
-  test('when id and token is valid, clears cart', async () => {
+  test('when id and token are valid, clears cart', async () => {
     getByToken.mockImplementation(async () => {
       return {
         id: 123

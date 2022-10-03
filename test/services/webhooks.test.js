@@ -42,7 +42,7 @@ describe('handleProductUpdated', () => {
 })
 
 describe('handleProductDeleted', () => {
-  test('finds & upserts product', async () => {
+  test('finds & deletes product', async () => {
     Stripe.prototype.products.retrieve.mockResolvedValue({ id: 'prod_1234' })
     sync.upsertProduct.mockResolvedValue()
 
@@ -78,7 +78,7 @@ describe('handlePriceUpdated', () => {
 })
 
 describe('handlePriceDeleted', () => {
-  test('finds & upserts price', async () => {
+  test('finds & deletes price', async () => {
     Stripe.prototype.prices.retrieve.mockResolvedValue({ id: 'price_1234' })
     sync.upsertPrice.mockResolvedValue()
 

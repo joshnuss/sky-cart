@@ -6,7 +6,7 @@ vi.mock('$lib/services/catalog')
 describe('GET /products/:stripeId', () => {
   const params = { stripeId: 'prod_1234' }
 
-  test('returns product when found', async () => {
+  test('when found, returns product', async () => {
     get.mockImplementation(async () => ({ id: 1 }))
 
     const response = await GET({ params })
@@ -16,7 +16,7 @@ describe('GET /products/:stripeId', () => {
     expect(get).toHaveBeenCalled()
   })
 
-  test('returns 404 when not found', async () => {
+  test('when not found, returns 404', async () => {
     get.mockImplementation(async () => null)
 
     const response = GET({ params })
