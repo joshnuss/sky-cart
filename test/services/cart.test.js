@@ -70,8 +70,8 @@ describe('upsert', () => {
     expect(result.cart.items).toHaveLength(1)
 
     item = result.cart.items[0]
-    expect(item.productId).toBe(product.id)
-    expect(item.priceId).toBe(price.id)
+    expect(item.product.id).toBe(product.id)
+    expect(item.price.id).toBe(price.id)
     expect(item.quantity).toBe(3)
     expect(item.subtotal).toBe(3000)
     expect(result.cart.total).toBe(3000)
@@ -87,8 +87,8 @@ describe('upsert', () => {
     expect(result.cart.items).toHaveLength(1)
 
     const item = result.cart.items[0]
-    expect(item.productId).toBe(product.id)
-    expect(item.priceId).toBe(price.id)
+    expect(item.product.id).toBe(product.id)
+    expect(item.price.id).toBe(price.id)
     expect(item.quantity).toBe(2)
     expect(item.subtotal).toBe(2000)
     expect(result.cart.total).toBe(2000)
@@ -108,8 +108,8 @@ describe('upsert', () => {
     expect(result.cart.items).toHaveLength(1)
 
     const item = result.cart.items[0]
-    expect(item.productId).toBe(product.id)
-    expect(item.priceId).toBe(price.id)
+    expect(item.product.id).toBe(product.id)
+    expect(item.price.id).toBe(price.id)
     expect(item.quantity).toBe(2)
     expect(item.subtotal).toBe(2000)
     expect(result.cart.total).toBe(2000)
