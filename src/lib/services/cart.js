@@ -7,7 +7,14 @@ export function get(where) {
   return db.cart.findUnique({
     where,
     include: {
-      items: true
+      items: {
+        select: {
+          quantity: true,
+          subtotal: true,
+          product: true,
+          price: true
+        }
+      }
     }
   })
 }
