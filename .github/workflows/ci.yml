@@ -42,6 +42,9 @@ jobs:
 
       - name: Run tests
         run: pnpm test run
+        env:
+          STRIPE_SECRET_KEY=sk_test_1234
+          STRIPE_ENDPOINT_SECRET=webhook-secret
 
       - name: Lint
         run: pnpm lint
