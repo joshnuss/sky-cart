@@ -1,3 +1,4 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 export async function eachPage(object, callback) {
   let count = 0
   let starting_after = undefined

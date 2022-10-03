@@ -1,4 +1,3 @@
-/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 import { Prisma } from '@prisma/client'
 import { stripe } from './stripe'
 import { db } from './db'
