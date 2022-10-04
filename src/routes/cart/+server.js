@@ -4,5 +4,5 @@ import * as Carts from '$lib/services/cart'
 export async function POST() {
   const data = await Carts.create()
 
-  return serialize(data)
+  return serialize(data, { token: true })
 }
