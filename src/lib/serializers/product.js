@@ -12,9 +12,9 @@ export function details(product) {
   return json(attributes)
 }
 
-function productAttributes(product) {
+export function productAttributes(product) {
   const { stripeId: id, name, description, images, shippable, unitLabel, url } = product
-  const prices = product.prices.map(priceAttributes)
+  const prices = product.prices?.map(priceAttributes)
 
   return {
     id,
@@ -28,7 +28,7 @@ function productAttributes(product) {
   }
 }
 
-function priceAttributes(price) {
+export function priceAttributes(price) {
   const {
     stripeId: id,
     type,
