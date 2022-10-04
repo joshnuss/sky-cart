@@ -11,6 +11,7 @@ Cloud-agnostic shopping cart using Stripe Checkout. Reference design for SvelteK
 - **SvelteKit**: Uses [SvelteKit](https://kit.svelte.dev) for defining API.
 - **Prisma**: Cart data is persisted using [prisma](https://prisma.io). Prisma supports Postgres, MySQL, Mongo and [others](https://www.prisma.io/docs/reference/database-reference/supported-databases).
 - **Vitest**: Full coverage using [vitest](https://vitest.dev).
+- **Insomnia**: [Insomnia](https://insomnia.rest) [definition file](Insomnia.json) for testing.
 
 ## Cart API
 
