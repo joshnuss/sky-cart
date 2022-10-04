@@ -1,8 +1,10 @@
 import * as sync from '$lib/services/sync'
+import * as carts from '$lib/services/cart'
 import * as webhooks from '$lib/services/webhooks'
 import Stripe from 'stripe'
 
 vi.mock('$lib/services/sync')
+vi.mock('$lib/services/cart')
 vi.mock('stripe', () => {
   const Stripe = vi.fn()
 
@@ -86,5 +88,31 @@ describe('handlePriceDeleted', () => {
 
     expect(Stripe.prototype.prices.retrieve).toHaveBeenCalledWith('price_1234')
     expect(sync.upsertPrice).toHaveBeenCalledWith({ id: 'price_1234' })
+  })
+})
+
+describe('handlePriceDeleted', () => {
+  test('finds & deletes price', async () => {
+    Stripe.prototype.prices.retrieve.mockResolvedValue({ id: 'price_1234' })
+    sync.upsertPrice.mockResolvedValue()
+
+    await webhooks.handlePriceDeleted('price_1234')
+
+    expect(Stripe.prototype.prices.retrieve).toHaveBeenCalledWith('price_1234')
+    expect(sync.upsertPrice).toHaveBeenCalledWith({ id: 'price_1234' })
+  })
+})
+
+describe('handleCheckoutCompleted', () => {
+  test('finds cart & marks paid', async () => {
+    carts.get.mockResolvedValue({ publicId: 'cart_1234' })
+
+    await webhooks.handleCheckoutCompleted({
+      id: 'cs_1234',
+      metadata: { id: 'cart_1234' }
+    })
+
+    expect(carts.get).toHaveBeenCalledWith({ publicId: 'cart_1234' })
+    expect(carts.markPaid).toHaveBeenCalledWith({ publicId: 'cart_1234' }, 'cs_1234')
   })
 })
