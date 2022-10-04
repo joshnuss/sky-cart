@@ -1,4 +1,4 @@
-import { get, getByToken, create, upsert, remove, clear } from '$lib/services/cart'
+import { get, getByToken, create, upsert, remove, clear, markPaid } from '$lib/services/cart'
 import { createCart, createCartItem, createProduct, createPrice } from '$test/factories'
 
 describe('get', () => {
@@ -260,5 +260,16 @@ describe('clear', () => {
 
     expect(cart.total).toBe(0)
     expect(cart.items).toHaveLength(0)
+  })
+})
+
+describe('markPaid', () => {
+  test('updates status', async () => {
+    let cart = await createCart({ total: 1000 })
+
+    cart = await markPaid(cart, 'cs_1234')
+
+    expect(cart.status).toBe('PAID')
+    expect(cart.checkoutId).toBe('cs_1234')
   })
 })

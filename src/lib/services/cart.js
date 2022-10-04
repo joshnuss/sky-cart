@@ -135,6 +135,18 @@ export async function remove(cart, stripeId) {
   return success({ cart })
 }
 
+export async function markPaid(cart, checkoutId) {
+  await db.cart.update({
+    where: { id: cart.id },
+    data: {
+      status: 'PAID',
+      checkoutId
+    }
+  })
+
+  return await get({ id: cart.id })
+}
+
 function getItem(cart, price) {
   return db.cartItem.findUnique({
     where: {

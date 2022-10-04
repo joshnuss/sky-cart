@@ -72,6 +72,7 @@ model Cart {
   status CartStatus
   currency String
   total Int
+  checkoutId String?
 
   items CartItem[]
 
