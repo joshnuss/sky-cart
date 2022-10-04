@@ -68,14 +68,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Migrate database
-        run: pnpm prisma db push
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      - name: Ensure database is initialized
-        run: ./scripts/ensure-setup.sh
-
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
@@ -84,6 +76,16 @@ jobs:
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Migrate database
+        run: pnpm prisma db push
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Ensure database is initialized
+        run: ./scripts/ensure-setup.sh
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
