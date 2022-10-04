@@ -1,8 +1,8 @@
-import { json } from '@sveltejs/kit'
+import { list as serialize } from '$lib/serializers/product'
 import * as catalog from '$lib/services/catalog'
 
 export async function GET() {
   const products = await catalog.all()
 
-  return json(products)
+  return serialize(products)
 }

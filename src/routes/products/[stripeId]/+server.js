@@ -1,4 +1,5 @@
-import { error, json } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
+import { details as serialize } from '$lib/serializers/product'
 import * as catalog from '$lib/services/catalog'
 
 export async function GET({ params }) {
@@ -6,5 +7,5 @@ export async function GET({ params }) {
 
   if (!product) throw error(404)
 
-  return json(product)
+  return serialize(product)
 }
