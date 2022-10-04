@@ -13,7 +13,8 @@ export function details(product) {
 }
 
 function productAttributes(product) {
-  const { publicId: id, name, description, images, shippable, unitLabel, url } = product
+  const { stripeId: id, name, description, images, shippable, unitLabel, url } = product
+  const prices = product.prices.map(priceAttributes)
 
   return {
     id,
@@ -22,6 +23,40 @@ function productAttributes(product) {
     images,
     shippable,
     unitLabel,
-    url
+    url,
+    prices
+  }
+}
+
+function priceAttributes(price) {
+  const {
+    stripeId: id,
+    type,
+    billingScheme,
+    currency,
+    nickname,
+    recurring,
+    taxBehaviour,
+    tiers,
+    transformQuantity,
+    unitAmount,
+    unitAmountDecimal,
+    customUnitAmount
+  } = price
+
+  return {
+    id,
+    type,
+    billingScheme,
+    currency,
+    nickname,
+    recurring,
+    taxBehaviour,
+    tiers,
+    transformQuantity,
+    unitAmount,
+    unitAmountDecimal,
+    customUnitAmount,
+    default: price.default
   }
 }
