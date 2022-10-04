@@ -73,6 +73,9 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
+      - name: Ensure database is initialized
+        run: ./scripts/ensure-setup.sh
+
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
