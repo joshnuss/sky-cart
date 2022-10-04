@@ -7,17 +7,17 @@ describe('GET /products/:stripeId', () => {
   const params = { stripeId: 'prod_1234' }
 
   test('when found, returns product', async () => {
-    get.mockImplementation(async () => ({ id: 1 }))
+    get.mockResolvedValue({ stripeId: 'prod_1234', prices: [] })
 
     const response = await GET({ params })
 
     expect(response.status).toBe(200)
-    expect(await response.json()).toContain({ id: 1 })
+    expect(await response.json()).toContain({ id: 'prod_1234' })
     expect(get).toHaveBeenCalled()
   })
 
   test('when not found, returns 404', async () => {
-    get.mockImplementation(async () => null)
+    get.mockResolvedValue(null)
 
     const response = GET({ params })
 

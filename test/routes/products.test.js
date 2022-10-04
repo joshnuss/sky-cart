@@ -5,12 +5,12 @@ vi.mock('$lib/services/catalog')
 
 describe('GET /products', () => {
   test('returns products', async () => {
-    all.mockImplementation(async () => [{ id: 1 }])
+    all.mockResolvedValue([{ stripeId: 'prod_1234', prices: [] }])
 
     const response = await GET()
 
     expect(response.status).toBe(200)
-    expect(await response.json()).toStrictEqual([{ id: 1 }])
+    expect(await response.json()).toEqual([expect.objectContaining({ id: 'prod_1234' })])
     expect(all).toHaveBeenCalled()
   })
 })
