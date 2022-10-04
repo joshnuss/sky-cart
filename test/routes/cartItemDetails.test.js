@@ -11,7 +11,7 @@ describe('PATCH /cart/:cartId/:itemId', () => {
   const params = { cartId: 'cart_12345', itemId: 'price_1234' }
 
   test('when cart is not found, returns 401', async () => {
-    carts.getByToken.mockImplementation(async () => null)
+    carts.getByToken.mockResolvedValue(null)
 
     const headers = new Map()
     const request = { headers }

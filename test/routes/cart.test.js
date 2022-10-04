@@ -5,13 +5,13 @@ vi.mock('$lib/services/cart')
 
 describe('POST /cart', () => {
   test('returns cart', async () => {
-    create.mockImplementation(async () => ({
+    create.mockResolvedValue({
       publicId: 'cart_1234',
       currency: 'usd',
       token: 'abcd123',
       status: 'OPEN',
       total: 0
-    }))
+    })
 
     const response = await POST()
 

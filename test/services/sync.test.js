@@ -26,22 +26,20 @@ vi.mock('stripe', () => {
 
 describe('syncProducts', () => {
   test('adds new products', async () => {
-    Stripe.prototype.products.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [
-          {
-            id: 'prod_1234',
-            name: 'product-name',
-            description: 'example description',
-            default_price: 'price_1234',
-            images: ['http://imgur.com/cat.png'],
-            active: true,
-            shippable: true,
-            url: 'https://cat-pictures.tld/product'
-          }
-        ]
-      }
+    Stripe.prototype.products.list.mockResolvedValue({
+      has_more: false,
+      data: [
+        {
+          id: 'prod_1234',
+          name: 'product-name',
+          description: 'example description',
+          default_price: 'price_1234',
+          images: ['http://imgur.com/cat.png'],
+          active: true,
+          shippable: true,
+          url: 'https://cat-pictures.tld/product'
+        }
+      ]
     })
 
     const count = await syncProducts()
@@ -62,22 +60,20 @@ describe('syncProducts', () => {
   test('updates existing products', async () => {
     const existing = await createProduct({ stripeId: 'prod_1234' })
 
-    Stripe.prototype.products.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [
-          {
-            id: 'prod_1234',
-            name: 'product-name',
-            description: 'example description',
-            default_price: 'price_1234',
-            images: ['http://imgur.com/cat.png'],
-            active: true,
-            shippable: true,
-            url: 'https://cat-pictures.tld/product'
-          }
-        ]
-      }
+    Stripe.prototype.products.list.mockResolvedValue({
+      has_more: false,
+      data: [
+        {
+          id: 'prod_1234',
+          name: 'product-name',
+          description: 'example description',
+          default_price: 'price_1234',
+          images: ['http://imgur.com/cat.png'],
+          active: true,
+          shippable: true,
+          url: 'https://cat-pictures.tld/product'
+        }
+      ]
     })
 
     const count = await syncProducts()
@@ -107,23 +103,17 @@ describe('syncProducts', () => {
       url: 'https://cat-pictures.tld/product'
     }
 
-    Stripe.prototype.products.list.mockImplementationOnce(async () => {
-      return {
-        has_more: true,
-        data: [productData, { ...productData, id: 'prod_12345' }]
-      }
+    Stripe.prototype.products.list.mockResolvedValueOnce({
+      has_more: true,
+      data: [productData, { ...productData, id: 'prod_12345' }]
     })
-    Stripe.prototype.products.list.mockImplementationOnce(async () => {
-      return {
-        has_more: true,
-        data: [{ ...productData, id: 'prod_123456' }]
-      }
+    Stripe.prototype.products.list.mockResolvedValueOnce({
+      has_more: true,
+      data: [{ ...productData, id: 'prod_123456' }]
     })
-    Stripe.prototype.products.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [{ ...productData, id: 'prod_1234567' }]
-      }
+    Stripe.prototype.products.list.mockResolvedValueOnce({
+      has_more: false,
+      data: [{ ...productData, id: 'prod_1234567' }]
     })
 
     const count = await syncProducts()
@@ -139,23 +129,21 @@ describe('syncPrices', () => {
   })
 
   test('adds new prices', async () => {
-    Stripe.prototype.prices.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [
-          {
-            id: 'price_1234',
-            product: 'prod_1234',
-            type: 'one_time',
-            billing_scheme: 'per_unit',
-            currency: 'usd',
-            nickname: 'basic',
-            tax_behavior: 'unspecified',
-            unit_amount: 1099,
-            active: true
-          }
-        ]
-      }
+    Stripe.prototype.prices.list.mockResolvedValue({
+      has_more: false,
+      data: [
+        {
+          id: 'price_1234',
+          product: 'prod_1234',
+          type: 'one_time',
+          billing_scheme: 'per_unit',
+          currency: 'usd',
+          nickname: 'basic',
+          tax_behavior: 'unspecified',
+          unit_amount: 1099,
+          active: true
+        }
+      ]
     })
 
     const count = await syncPrices()
@@ -180,23 +168,21 @@ describe('syncPrices', () => {
       product: { connect: { id: product.id } }
     })
 
-    Stripe.prototype.prices.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [
-          {
-            id: 'price_1234',
-            product: 'prod_1234',
-            type: 'one_time',
-            billing_scheme: 'per_unit',
-            currency: 'usd',
-            nickname: 'basic',
-            tax_behavior: 'unspecified',
-            unit_amount: 1099,
-            active: true
-          }
-        ]
-      }
+    Stripe.prototype.prices.list.mockResolvedValue({
+      has_more: false,
+      data: [
+        {
+          id: 'price_1234',
+          product: 'prod_1234',
+          type: 'one_time',
+          billing_scheme: 'per_unit',
+          currency: 'usd',
+          nickname: 'basic',
+          tax_behavior: 'unspecified',
+          unit_amount: 1099,
+          active: true
+        }
+      ]
     })
 
     const count = await syncPrices()
@@ -228,23 +214,17 @@ describe('syncPrices', () => {
       active: true
     }
 
-    Stripe.prototype.prices.list.mockImplementationOnce(async () => {
-      return {
-        has_more: true,
-        data: [priceData, { ...priceData, id: 'price_12345' }]
-      }
+    Stripe.prototype.prices.list.mockResolvedValueOnce({
+      has_more: true,
+      data: [priceData, { ...priceData, id: 'price_12345' }]
     })
-    Stripe.prototype.prices.list.mockImplementationOnce(async () => {
-      return {
-        has_more: true,
-        data: [{ ...priceData, id: 'price_123456' }]
-      }
+    Stripe.prototype.prices.list.mockResolvedValueOnce({
+      has_more: true,
+      data: [{ ...priceData, id: 'price_123456' }]
     })
-    Stripe.prototype.prices.list.mockImplementationOnce(async () => {
-      return {
-        has_more: false,
-        data: [{ ...priceData, id: 'price_1234567' }]
-      }
+    Stripe.prototype.prices.list.mockResolvedValueOnce({
+      has_more: false,
+      data: [{ ...priceData, id: 'price_1234567' }]
     })
 
     const count = await syncPrices()

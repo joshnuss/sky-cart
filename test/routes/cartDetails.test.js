@@ -7,7 +7,7 @@ describe('GET /cart/:id', () => {
   const params = { cartId: 'cart_12345' }
 
   test('when id is invalid, returns 401', async () => {
-    getByToken.mockImplementation(async () => null)
+    getByToken.mockResolvedValue(null)
 
     const request = {
       headers: new Map()
@@ -19,7 +19,7 @@ describe('GET /cart/:id', () => {
   })
 
   test('when token is invalid, returns 401', async () => {
-    getByToken.mockImplementation(async () => null)
+    getByToken.mockResolvedValue(null)
 
     const headers = new Map()
     const request = { headers }
@@ -32,11 +32,9 @@ describe('GET /cart/:id', () => {
   })
 
   test('when id and token are valid, returns cart data', async () => {
-    getByToken.mockImplementation(async () => {
-      return {
-        publicId: 'cart_12345',
-        status: 'OPEN'
-      }
+    getByToken.mockResolvedValue({
+      publicId: 'cart_12345',
+      status: 'OPEN'
     })
 
     const headers = new Map()
@@ -59,7 +57,7 @@ describe('DELETE /cart/:id', () => {
   const params = { cartId: 'cart_12345' }
 
   test('when id is invalid, returns 401', async () => {
-    getByToken.mockImplementation(async () => null)
+    getByToken.mockResolvedValue(null)
 
     const request = {
       headers: new Map()
@@ -71,7 +69,7 @@ describe('DELETE /cart/:id', () => {
   })
 
   test('when token is invalid, returns 401', async () => {
-    getByToken.mockImplementation(async () => null)
+    getByToken.mockResolvedValue(null)
 
     const headers = new Map()
     const request = { headers }
@@ -84,16 +82,12 @@ describe('DELETE /cart/:id', () => {
   })
 
   test('when id and token are valid, clears cart', async () => {
-    getByToken.mockImplementation(async () => {
-      return {
-        id: 123
-      }
+    getByToken.mockResolvedValue({
+      id: 123
     })
-    clear.mockImplementation(async () => {
-      return {
-        publicId: 'cart_12345',
-        status: 'OPEN'
-      }
+    clear.mockResolvedValue({
+      publicId: 'cart_12345',
+      status: 'OPEN'
     })
 
     const headers = new Map()
