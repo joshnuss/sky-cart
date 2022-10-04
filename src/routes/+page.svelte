@@ -2,5 +2,5 @@
 <p>Cloud-agnostic shopping cart using Stripe Checkout.</p>
 <p>Reference design for SvelteKit + Prisma apps.</p>
 <p>
-  Visit <a href="https://github.com/joshnuss/sky-cart">github.com/joshnuss/sky-cart</a> to read the documentation
+  <a href="https://github.com/joshnuss/sky-carti#readme">API documentation</a>
 </p>
