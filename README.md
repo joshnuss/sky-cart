@@ -104,6 +104,13 @@ curl localhost/products/prod_1234
 
 TODO: add production instructions
 
+## Notes
+
+This is an early release where some things are unpolished. The following features are not yet supported:
+
+- Inventory control: This works best for stuff that doesn't have a fixed inventory. ie subscriptions, digital goods, on-demand products, backorderable products.
+- Complex pricing: The cart total computation is very basic, and does not yet support advanced pricing setups, like graduated pricing or discounts.
+
 ## License
 
 MIT
