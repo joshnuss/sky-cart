@@ -17,7 +17,8 @@ export async function POST({ request }) {
     throw error(400)
   }
 
-  const id = event.data.object.id
+  const object = event.data.object
+  const id = object.id
 
   switch (event.type) {
     case 'product.created':
@@ -42,6 +43,10 @@ export async function POST({ request }) {
 
     case 'price.deleted':
       await webhooks.handlePriceDeleted(id)
+      break
+
+    case 'checkout.session.completed':
+      await webhooks.handleCheckoutCompleted(object)
       break
   }
 

@@ -145,5 +145,30 @@ describe('POST /events', () => {
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceUpdated).toHaveBeenCalledWith('price_1234')
     })
+
+    test('when event is checkout.session.completed, calls service & returns 200', async () => {
+      webhooks.handleCheckoutCompleted.mockResolvedValue()
+      Stripe.prototype.webhooks.constructEvent.mockReturnValue({
+        type: 'checkout.session.completed',
+        data: {
+          object: {
+            id: 'cs_1234',
+            metadata: {
+              id: 'cart_1234'
+            }
+          }
+        }
+      })
+
+      const response = await POST({ request })
+
+      expect(response).toMatchObject({ status: 200 })
+      expect(webhooks.handleCheckoutCompleted).toHaveBeenCalledWith({
+        id: 'cs_1234',
+        metadata: {
+          id: 'cart_1234'
+        }
+      })
+    })
   })
 })
