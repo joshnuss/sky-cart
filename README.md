@@ -24,13 +24,13 @@ curl localhost/cart --request POST
 ### Read cart
 
 ```bash
-curl localhost/cart/:id --header 'authorization: token'
+curl host.tld/cart/:id --header 'authorization: token'
 ```
 
 ### Add an item
 
 ```bash
-curl localhost/cart/:id \
+curl host.tld/cart/:id \
   --request POST \
   --header 'authorization: token' \
   --data '{"price": "price_xyz123", "quantity": 2}'
@@ -39,7 +39,7 @@ curl localhost/cart/:id \
 ### Update an item
 
 ```bash
-curl localhost/cart/:id/price_xyz123 \
+curl host.tld/cart/:id/price_xyz123 \
   --request PATCH \
   --header 'authorization: token' \
   --data '{"quantity": 2}'
@@ -48,7 +48,7 @@ curl localhost/cart/:id/price_xyz123 \
 ### Remove an item
 
 ```bash
-curl localhost/cart/:id/price_xyz123 \
+curl host.tld/cart/:id/price_xyz123 \
   --request DELETE \
   --header 'authorization: token'
 ```
@@ -56,7 +56,7 @@ curl localhost/cart/:id/price_xyz123 \
 ### Clear the cart
 
 ```bash
-curl localhost/cart/:id \
+curl host.tld/cart/:id \
   --request DELETE \
   --header 'authorization: token'
 ```
@@ -66,7 +66,7 @@ curl localhost/cart/:id \
 To create a checkout session, post to `/cart/:id/checkout`.
 
 ```bash
-curl localhost/cart/:id/checkout \
+curl host.tld/cart/:id/checkout \
   --request POST \
   --header 'authorization: token'
 ```
@@ -80,7 +80,7 @@ Provides access to a replicated copy of your Stripe products and prices. There i
 Includes prices.
 
 ```bash
-curl localhost/products
+curl host.tld/products
 ```
 
 ### Retrieve a single product
@@ -88,7 +88,7 @@ curl localhost/products
 Includes prices.
 
 ```bash
-curl localhost/products/prod_1234
+curl host.tld/products/prod_1234
 ```
 
 ## Setup
