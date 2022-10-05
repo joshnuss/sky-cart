@@ -18,7 +18,7 @@ Cloud-agnostic shopping cart using Stripe Checkout. Reference design for SvelteK
 ### Create cart
 
 ```bash
-curl localhost/cart --request POST
+curl host.tld/cart --request POST
 ```
 
 ### Read cart
