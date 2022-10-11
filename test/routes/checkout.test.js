@@ -1,6 +1,7 @@
 import { POST } from '$routes/cart/[cartId]/checkout/+server'
 import * as carts from '$lib/services/cart'
 import * as checkout from '$lib/services/checkout'
+import { request } from 'svelte-kit-test-helpers'
 
 vi.mock('$lib/services/cart')
 vi.mock('$lib/services/checkout')
@@ -15,9 +16,14 @@ describe('POST /cart/:id/checkout', () => {
       url: 'https://checkout.stripe.com/cs_1234'
     })
 
-    const headers = new Map()
-    headers.set('authorization', 'fake-token')
-    const response = await POST({ request: { headers }, params: { cartId: 'cart_1234' } })
+    const response = await request(POST, {
+      params: {
+        cartId: 'cart_1234'
+      },
+      headers: {
+        authorization: 'fake-token'
+      }
+    })
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({

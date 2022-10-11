@@ -1,5 +1,6 @@
 import { PATCH, DELETE } from '$routes/cart/[cartId]/[itemId]/+server'
 import * as carts from '$lib/services/cart'
+import { request } from 'svelte-kit-test-helpers'
 
 vi.mock('$lib/services/cart')
 
@@ -13,12 +14,14 @@ describe('PATCH /cart/:cartId/:itemId', () => {
   test('when cart is not found, returns 401', async () => {
     carts.getByToken.mockResolvedValue(null)
 
-    const headers = new Map()
-    const request = { headers }
+    const response = request(PATCH, {
+      params,
+      headers: {
+        authorization: 'fake-token'
+      }
+    })
 
-    headers.set('authorization', 'fake-token')
-
-    await expect(PATCH({ params, request })).rejects.toMatchObject({ status: 401 })
+    await expect(response).rejects.toMatchObject({ status: 401 })
 
     expect(carts.getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
     expect(carts.upsert).not.toHaveBeenCalled()
@@ -37,17 +40,13 @@ describe('PATCH /cart/:cartId/:itemId', () => {
       }
     })
 
-    const headers = new Map()
-    const request = {
-      headers,
-      async json() {
-        return { quantity: 2 }
-      }
-    }
-
-    headers.set('authorization', 'fake-token')
-
-    const response = await PATCH({ params, request })
+    const response = await request(PATCH, {
+      params,
+      headers: {
+        authorization: 'fake-token'
+      },
+      body: { quantity: 2 }
+    })
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({
@@ -75,17 +74,13 @@ describe('PATCH /cart/:cartId/:itemId', () => {
       }
     })
 
-    const headers = new Map()
-    const request = {
-      headers,
-      async json() {
-        return {}
-      }
-    }
-
-    headers.set('authorization', 'fake-token')
-
-    const response = await PATCH({ params, request })
+    const response = await request(PATCH, {
+      params,
+      headers: {
+        authorization: 'fake-token'
+      },
+      body: {}
+    })
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({
@@ -107,11 +102,9 @@ describe('DELETE /cart/:cartId/:itemId', () => {
   test('when cart not found, returns 401', async () => {
     carts.getByToken.mockResolvedValue(null)
 
-    const request = {
-      headers: new Map()
-    }
+    const response = request(DELETE, { params })
 
-    await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 401 })
+    await expect(response).rejects.toMatchObject({ status: 401 })
 
     expect(carts.getByToken).toHaveBeenCalledWith('cart_12345', undefined)
     expect(carts.remove).not.toHaveBeenCalled()
@@ -129,12 +122,12 @@ describe('DELETE /cart/:cartId/:itemId', () => {
       }
     })
 
-    const headers = new Map()
-    const request = { headers }
-
-    headers.set('authorization', 'fake-token')
-
-    const response = await DELETE({ params, request })
+    const response = await request(DELETE, {
+      params,
+      headers: {
+        authorization: 'fake-token'
+      }
+    })
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({
@@ -156,12 +149,14 @@ describe('DELETE /cart/:cartId/:itemId', () => {
       }
     })
 
-    const headers = new Map()
-    const request = { headers }
+    const response = request(DELETE, {
+      params,
+      headers: {
+        authorization: 'fake-token'
+      }
+    })
 
-    headers.set('authorization', 'fake-token')
-
-    await expect(DELETE({ params, request })).rejects.toMatchObject({ status: 400 })
+    await expect(response).rejects.toMatchObject({ status: 400 })
 
     expect(carts.getByToken).toHaveBeenCalledWith('cart_12345', 'fake-token')
     expect(carts.remove).toHaveBeenCalledWith(expect.objectContaining({ id: 123 }), 'price_1234')

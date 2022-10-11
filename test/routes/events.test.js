@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 import { POST } from '$routes/events/+server.js'
 import * as webhooks from '$lib/services/webhooks'
+import { request } from 'svelte-kit-test-helpers'
 
 vi.mock('$lib/services/webhooks')
 
@@ -15,26 +16,19 @@ vi.mock('stripe', () => {
 })
 
 describe('POST /events', () => {
-  let request
-
-  beforeAll(() => {
-    const headers = new Map()
-    headers.set('stripe-signature', 'a-signature')
-
-    request = {
-      headers,
-      async text() {
-        return 'body-text'
-      }
-    }
-  })
-
   test('when signature is invalid, returns 400', async () => {
     Stripe.prototype.webhooks.constructEvent.mockImplementation(() => {
       throw new Error('whoops')
     })
 
-    await expect(POST({ request })).rejects.toMatchObject({ status: 400 })
+    const response = request(POST, {
+      headers: {
+        'stripe-signature': 'a-signature'
+      },
+      body: 'body-text'
+    })
+
+    await expect(response).rejects.toMatchObject({ status: 400 })
 
     expect(Stripe.prototype.webhooks.constructEvent).toHaveBeenCalledWith(
       'body-text',
@@ -44,6 +38,13 @@ describe('POST /events', () => {
   })
 
   describe('when signature is valid', () => {
+    const event = {
+      headers: {
+        'stripe-signature': 'a-signature'
+      },
+      body: 'body-text'
+    }
+
     test('when event is product.created, calls service & returns 200', async () => {
       webhooks.handleProductCreated.mockResolvedValue()
       Stripe.prototype.webhooks.constructEvent.mockReturnValue({
@@ -55,7 +56,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductCreated).toHaveBeenCalledWith('prod_1234')
@@ -72,7 +73,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductUpdated).toHaveBeenCalledWith('prod_1234')
@@ -89,7 +90,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleProductDeleted).toHaveBeenCalledWith('prod_1234')
@@ -106,7 +107,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceCreated).toHaveBeenCalledWith('price_1234')
@@ -123,7 +124,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceUpdated).toHaveBeenCalledWith('price_1234')
@@ -140,7 +141,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handlePriceUpdated).toHaveBeenCalledWith('price_1234')
@@ -160,7 +161,7 @@ describe('POST /events', () => {
         }
       })
 
-      const response = await POST({ request })
+      const response = await request(POST, event)
 
       expect(response).toMatchObject({ status: 200 })
       expect(webhooks.handleCheckoutCompleted).toHaveBeenCalledWith({

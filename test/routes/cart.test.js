@@ -1,5 +1,6 @@
 import { POST } from '$routes/cart/+server'
 import { create } from '$lib/services/cart'
+import { request } from 'svelte-kit-test-helpers'
 
 vi.mock('$lib/services/cart')
 
@@ -13,7 +14,7 @@ describe('POST /cart', () => {
       total: 0
     })
 
-    const response = await POST()
+    const response = await request(POST)
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({
