@@ -107,7 +107,7 @@ These instructions use [Vercel](https://vercel.com) for cloud functions and [Rai
 
 #### Database Setup
 
-1. First, create a project on [Railway](https://railway.app/new)
+1. First, create a project on [railway.app/new](https://railway.app/new)
 2. To add Postgres, choose "Provision Postgres"
 3. To get the database connection string, click on the PostgresSQL square, then the Connect tab. Copy the "Postgres connection url"
 
