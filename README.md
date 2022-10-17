@@ -124,7 +124,7 @@ These instructions use [Vercel](https://vercel.com) for cloud functions and [Rai
 - To manually migrate the database, run `railway run pnpm prisma db push`
 - To manually re-deploy, run `vercel deploy --prod`
 
-This site can also be deployed automatically via the [GitHub action](.github/workflows/ci.yml) defined in this project.
+This site can also be deployed automatically via the [provided GitHub action](.github/workflows/ci.yml).
 
 ## Note
 
