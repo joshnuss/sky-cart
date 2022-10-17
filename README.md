@@ -107,7 +107,7 @@ These instructions use [Vercel](https://vercel.com) for cloud functions and [Rai
 
 #### Database Setup
 
-1. Create a project on [Railway](https://railway.app/new)
+1. First, create a project on [Railway](https://railway.app/new)
 2. To add Postgres, choose "Provision Postgres"
 3. To get the database connection string, click on the PostgresSQL square, then the Connect tab. Copy the "Postgres connection url"
 
@@ -117,16 +117,16 @@ These instructions use [Vercel](https://vercel.com) for cloud functions and [Rai
 2. Set the environment var for `DATABASE_URL`: `vercel env add DATABASE_URL`
 3. Set the environment var for `STRIPE_SECRET_KEY`: `vercel env add STRIPE_SECRET_KEY`
 4. Set the environment var for `STRIPE_WEBHOOK_SECRET`: `vercel env add STRIPE_WEBHOOK_SECRET`
-5. Deploy: `vercel deploy --prod`
+5. Finally, deploy to production: `vercel deploy --prod`
 
 #### Deploy
 
-- To manually migrate database, run `railway run pnpm prisma db push`
-- To manually deploy, run `vercel deploy --prod`
+- To manually migrate the database, run `railway run pnpm prisma db push`
+- To manually re-deploy, run `vercel deploy --prod`
 
-This site can also be deployed automatically via the [GitHub action](.github/workflows/ci.yml).
+This site can also be deployed automatically via the [GitHub action](.github/workflows/ci.yml) defined in this project.
 
-## Notes
+## Note
 
 This is an early release where some things are unpolished. The following features are not yet supported:
 
