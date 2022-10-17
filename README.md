@@ -103,7 +103,28 @@ curl host.tld/products/prod_1234
 
 ### Production
 
-TODO: add production instructions
+These instructions use [Vercel](https://vercel.com) for cloud functions and [Railway](https://railway.app) for the database, but all hosting providers [supported by SvelteKit](https://kit.svelte.dev/docs/adapters) will work.
+
+#### Database Setup
+
+1. Create a project on [Railway](https://railway.app/new)
+2. To add Postgres, choose "Provision Postgres"
+3. To get the database connection string, click on the PostgresSQL square, then the Connect tab. Copy the "Postgres connection url"
+
+#### Cloud Setup
+
+1. Create the Vercel project with `vercel init`
+2. Set the environment var for `DATABASE_URL`: `vercel env add DATABASE_URL`
+3. Set the environment var for `STRIPE_SECRET_KEY`: `vercel env add STRIPE_SECRET_KEY`
+4. Set the environment var for `STRIPE_WEBHOOK_SECRET`: `vercel env add STRIPE_WEBHOOK_SECRET`
+5. Deploy: `vercel deploy --prod`
+
+#### Deploy
+
+- To manually migrate database, run `railway run pnpm prisma db push`
+- To manually deploy, run `vercel deploy --prod`
+
+This site can also be deployed automatically via the [GitHub action](.github/workflows/ci.yml).
 
 ## Notes
 
